@@ -1,0 +1,185 @@
+Classes para implementação:
+
+Celular, Usuario (com Telefone, Endereco e a "listaDesejo"), Avaliacao, Municipio, Estado
+
+@startuml e-commerceCelular
+
+    abstract class Produto {
+
+        - id: Long
+        - nome: String
+        - descricao: String
+        - preco: Double
+        - estoque: Integer
+    }
+
+    class Celular {
+
+        - versaoSistemaOperacional: Float
+    }
+
+    enum SistemaOperacional {
+
+        + ANDROID: int
+        + IOS: int
+    }
+
+    enum Cor {
+
+        + AZUL: int
+        + ROSA: int
+        + VERMELHO: int
+        + DOURADO: int
+        + PRATEADO: int
+        + PRETO: int
+        + BRANCO: int
+        + AMARELO: int
+        + VERDE: int
+    }
+
+    class Marca {
+
+        - id: Long
+        - nome: String
+        - cnpj: String
+    }
+
+    class Usuario {
+
+        - id: Long
+        - nome: String
+        - email: String
+        - senha: String
+        - cpf: String
+    }
+
+    class Telefone {
+
+        - id: Long
+        - codigoArea: String
+        - numero: String
+    }
+
+    class Compra {
+
+        - id: Long
+        - dataCompra: Date
+        - totalCompra: Double
+    }
+
+    class ItemCompra {
+
+        - id: Long
+        - quantidade: Integer
+        - preco: Double
+    }
+
+    class Endereco {
+
+        - id: Long
+        - logradouro: String
+        - bairro: String
+        - numero: String
+        - complemento: String
+        - cep: String
+    }
+
+    class Avaliacao {
+
+        - id: Long
+        - comentario: String
+        - data: Date
+    }
+
+    enum Estrela {
+
+        + ESTRELA1: int
+        + ESTRELA2: int
+        + ESTRELA3: int
+        + ESTRELA4: int
+        + ESTRELA5: int
+    }
+
+    abstract class Pagamento {
+
+        - id: Long
+        - confirmacaoPagamento: Boolean
+        - dataConfirmacaoPagamento: Date
+        - valor: Double
+    }
+
+    class BoletoBancario {
+
+        - codigoBarra: String
+        - dataGeracaoBoleto: Date
+        - dataVencimento: Date
+    }
+
+    class Pix {
+
+        - chavePix: String
+    }
+
+    class CartaoCredito {
+
+        - numeroCartao: String
+        - nomeImpressoCartao: String
+        - cpfTitular: String
+    }
+
+    enum BandeiraCartao {
+
+        + VISA: int
+        + AMERICAN_EXPRESS: int
+        + HIPERCARD: int
+        + DINERS: int
+        + MASTERCARD: int
+        + ELO: int
+    }
+
+    class Estado {
+
+        - id: Long
+        - nome: String
+        - sigla: String
+    }
+
+    class Municipio {
+
+        - id: Long
+        - nome: String
+    }
+
+    Produto "*" o--> "1" Marca
+
+    Celular -up-|> Produto
+    Celular "*" o--> "1" Cor
+    Celular "*" o--> "1" SistemaOperacional
+
+    Municipio "*" *--> "1" Estado
+
+    Endereco "*" --> "1" Municipio
+
+    Usuario "*" --> "*" Produto: listaDesejo
+    Usuario "1" *--> "1" Telefone: telefonePrincipal
+    Usuario "1" *--> "1" Telefone: telefoneOpcional
+    Usuario "*" *--> "1" Endereco: enderecoPrincipal
+
+    ItemCompra "*" --> "1" Produto
+
+    BoletoBancario -up-|> Pagamento
+
+    Pix -up-|> Pagamento
+
+    CartaoCredito -up-|> Pagamento
+    CartaoCredito "*" --> "1" BandeiraCartao
+
+    Compra "*" --> "1" Usuario
+    Compra "1" *--> "*" ItemCompra
+    Compra "*" --> "1" Endereco
+    Compra "1" --> "1" Pagamento
+
+    Avaliacao "*" --> "1" Estrela
+    Avaliacao "*" o--> "1" Usuario
+    Avaliacao "*" --> "1" Produto
+@enduml
