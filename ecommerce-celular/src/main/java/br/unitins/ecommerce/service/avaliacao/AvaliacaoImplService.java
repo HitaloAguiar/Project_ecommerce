@@ -14,11 +14,13 @@ import javax.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoDTO;
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoResponseDTO;
+import br.unitins.ecommerce.model.produto.Produto;
 import br.unitins.ecommerce.model.produto.avaliacao.Avaliacao;
 import br.unitins.ecommerce.model.produto.avaliacao.Estrela;
+import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.AvaliacaoRepository;
-import br.unitins.ecommerce.repository.CelularRepository;
 import br.unitins.ecommerce.repository.UsuarioRepository;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 @ApplicationScoped
 public class AvaliacaoImplService implements AvaliacaoService {
@@ -30,7 +32,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     UsuarioRepository usuarioRepository;
 
     @Inject
-    CelularRepository celularRepository;
+    PanacheRepository<? extends Produto> produtoRepository;
 
     @Inject
     Validator validator;
@@ -68,7 +70,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
 
         entity.setEstrela(Estrela.valueOf(avaliacaoDto.estrela()));
 
-        entity.setProduto(celularRepository.findById(avaliacaoDto.idProduto()));
+        entity.setProduto(produtoRepository.findById(avaliacaoDto.idProduto()));
 
         entity.setUsuario(usuarioRepository.findById(avaliacaoDto.idUsuario()));
 
@@ -90,7 +92,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
 
         entity.setEstrela(Estrela.valueOf(avaliacaoDto.estrela()));
 
-        entity.setProduto(celularRepository.findById(avaliacaoDto.idProduto()));
+        entity.setProduto(produtoRepository.findById(avaliacaoDto.idProduto()));
 
         entity.setUsuario(usuarioRepository.findById(avaliacaoDto.idUsuario()));
 
@@ -113,6 +115,28 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    public void delete(Produto produto) {
+
+        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByProduto(produto);
+
+        for (Avaliacao avaliacao : listaAvaliacao) {
+            
+            avaliacaoRepository.delete(avaliacao);
+        }
+    }
+
+    @Override
+    public void delete(Usuario usuario) {
+        
+        List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByUsuario(usuario);
+
+        for (Avaliacao avaliacao : listaAvaliacao) {
+            
+            avaliacaoRepository.delete(avaliacao);
+        }
+    }
+
+    @Override
     public Long count() {
 
         return avaliacaoRepository.count();
@@ -122,6 +146,32 @@ public class AvaliacaoImplService implements AvaliacaoService {
     public List<AvaliacaoResponseDTO> getByYear(Integer year) throws NullPointerException {
 
         List<Avaliacao> list = avaliacaoRepository.findByYear(year);
+
+        if (list == null)
+            throw new NullPointerException("Nenhuma avaliação encontrada");
+
+        return list.stream()
+                    .map(AvaliacaoResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AvaliacaoResponseDTO> getByIdProduto(Long idProduto) {
+        
+        List<Avaliacao> list = avaliacaoRepository.findByProduto(produtoRepository.findById(idProduto));
+
+        if (list == null)
+            throw new NullPointerException("Nenhuma avaliação encontrada");
+
+        return list.stream()
+                    .map(AvaliacaoResponseDTO::new)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AvaliacaoResponseDTO> getByNomeUsuario(String nome) {
+
+        List<Avaliacao> list = avaliacaoRepository.findByUsuario(usuarioRepository.findByNome(nome).get(0));
 
         if (list == null)
             throw new NullPointerException("Nenhuma avaliação encontrada");

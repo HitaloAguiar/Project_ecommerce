@@ -6,6 +6,7 @@ import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
+import br.unitins.ecommerce.model.produto.Produto;
 
 public interface UsuarioService {
     
@@ -21,11 +22,13 @@ public interface UsuarioService {
 
     void delete(Long id);
 
-    void insertListaDesejo(ListaDesejoDTO listaDto);
-
     ListaDesejoResponseDTO getListaDesejo(Long id);
 
+    void insertProdutoIntoListaDesejo(ListaDesejoDTO listaDto);
+
     void deleteProdutoFromListaDesejo(Long id, Long idProduto);
+
+    void deleteProdutoFromAllListaDesejo(Produto produto);
 
     // Metodos extras
 

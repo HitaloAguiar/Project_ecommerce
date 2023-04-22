@@ -46,13 +46,6 @@ public class UsuarioResource {
         return usuarioService.getById(id);
     }
 
-    @GET
-    @Path("/lista_desejo/{idUsuario}")
-    public ListaDesejoResponseDTO getListaDesejo(@PathParam("idUsuario") Long idUsuario) {
-
-        return usuarioService.getListaDesejo(idUsuario);
-    }
-
     @POST
     @Transactional
     public Response insert(UsuarioDTO usuarioDto) {
@@ -62,29 +55,6 @@ public class UsuarioResource {
             return Response
                     .status(Status.CREATED) // 201
                     .entity(usuarioService.insert(usuarioDto))
-                    .build();
-        } catch (ConstraintViolationException e) {
-
-            Result result = new Result(e.getConstraintViolations());
-
-            return Response
-                    .status(Status.NOT_FOUND)
-                    .entity(result)
-                    .build();
-        }
-    }
-
-    @POST
-    @Path("/lista_desejo")
-    @Transactional
-    public Response insertListaDesejo(ListaDesejoDTO listaDto) {
-
-        try {
-
-            usuarioService.insertListaDesejo(listaDto);
-
-            return Response
-                    .status(Status.CREATED) // 201
                     .build();
         } catch (ConstraintViolationException e) {
 
@@ -132,6 +102,43 @@ public class UsuarioResource {
                 .build();
     }
 
+    @GET
+    @Path("/count")
+    public Long count() {
+
+        return usuarioService.count();
+    }
+
+    @GET
+    @Path("/lista_desejo/{idUsuario}")
+    public ListaDesejoResponseDTO getListaDesejo(@PathParam("idUsuario") Long idUsuario) {
+
+        return usuarioService.getListaDesejo(idUsuario);
+    }
+
+    @POST
+    @Path("/lista_desejo")
+    @Transactional
+    public Response insertListaDesejo(ListaDesejoDTO listaDto) {
+
+        try {
+
+            usuarioService.insertProdutoIntoListaDesejo(listaDto);
+
+            return Response
+                    .status(Status.CREATED) // 201
+                    .build();
+        } catch (ConstraintViolationException e) {
+
+            Result result = new Result(e.getConstraintViolations());
+
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(result)
+                    .build();
+        }
+    }
+
     @DELETE
     @Path("/lista_desejo/{idUsuario}&{idProduto}")
     @Transactional
@@ -142,13 +149,6 @@ public class UsuarioResource {
         return Response
                 .status(Status.NO_CONTENT)
                 .build();
-    }
-
-    @GET
-    @Path("/count")
-    public Long count() {
-
-        return usuarioService.count();
     }
 
     @GET

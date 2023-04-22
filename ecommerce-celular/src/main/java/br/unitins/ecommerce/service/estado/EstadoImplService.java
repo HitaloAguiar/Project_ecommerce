@@ -15,12 +15,16 @@ import br.unitins.ecommerce.dto.estado.EstadoDTO;
 import br.unitins.ecommerce.dto.estado.EstadoResponseDTO;
 import br.unitins.ecommerce.model.endereco.Estado;
 import br.unitins.ecommerce.repository.EstadoRepository;
+import br.unitins.ecommerce.service.muncipio.MunicipioService;
 
 @ApplicationScoped
 public class EstadoImplService implements EstadoService {
 
     @Inject
     EstadoRepository estadoRepository;
+
+    @Inject
+    MunicipioService municipioService;
 
     @Inject
     Validator validator;
@@ -82,6 +86,8 @@ public class EstadoImplService implements EstadoService {
             throw new IllegalArgumentException("Número inválido");
 
         Estado estado = estadoRepository.findById(id);
+
+        municipioService.delete(estado);
 
         if (estadoRepository.isPersistent(estado))
             estadoRepository.delete(estado);

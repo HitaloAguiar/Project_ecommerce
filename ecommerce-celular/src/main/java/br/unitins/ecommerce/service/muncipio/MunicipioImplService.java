@@ -17,6 +17,7 @@ import br.unitins.ecommerce.model.endereco.Estado;
 import br.unitins.ecommerce.model.endereco.Municipio;
 import br.unitins.ecommerce.repository.EstadoRepository;
 import br.unitins.ecommerce.repository.MunicipioRepository;
+import br.unitins.ecommerce.service.endereco.EnderecoService;
 
 @ApplicationScoped
 public class MunicipioImplService implements MunicipioService {
@@ -29,6 +30,9 @@ public class MunicipioImplService implements MunicipioService {
 
     @Inject
     EstadoRepository estadoRepository;
+
+    @Inject
+    EnderecoService enderecoService;
 
     @Override
     public List<MunicipioResponseDTO> getAll() {
@@ -91,11 +95,24 @@ public class MunicipioImplService implements MunicipioService {
 
         Municipio municipio = municipioRepository.findById(id);
 
+        enderecoService.delete(municipio);
+
         if (municipioRepository.isPersistent(municipio))
             municipioRepository.delete(municipio);
 
         else
             throw new NotFoundException("Nenhum municipio encontrado");
+    }
+
+    @Override
+    public void delete(Estado estado) {
+        
+        List<Municipio> listaMunicipio = municipioRepository.findByEstado(estado);
+
+        for (Municipio municipio : listaMunicipio) {
+            
+            municipioRepository.delete(municipio);
+        }
     }
 
     @Override

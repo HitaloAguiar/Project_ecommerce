@@ -18,6 +18,8 @@ import br.unitins.ecommerce.model.produto.celular.Cor;
 import br.unitins.ecommerce.model.produto.celular.SistemaOperacional;
 import br.unitins.ecommerce.repository.CelularRepository;
 import br.unitins.ecommerce.repository.MarcaRepository;
+import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
+import br.unitins.ecommerce.service.usuario.UsuarioService;
 
 @ApplicationScoped
 public class CelularImplService implements CelularService {
@@ -27,6 +29,12 @@ public class CelularImplService implements CelularService {
 
     @Inject
     MarcaRepository marcaRepository;
+
+    @Inject
+    AvaliacaoService avaliacaoService;
+
+    @Inject
+    UsuarioService usuarioService;
 
     @Inject
     Validator validator;
@@ -112,6 +120,10 @@ public class CelularImplService implements CelularService {
             throw new IllegalArgumentException("Número inválido");
 
         Celular celular = celularRepository.findById(id);
+
+        avaliacaoService.delete(celular);
+
+        usuarioService.deleteProdutoFromAllListaDesejo(celular);
 
         if (celularRepository.isPersistent(celular))
             celularRepository.delete(celular);
