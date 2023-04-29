@@ -3,7 +3,6 @@ package br.unitins.ecommerce.resource;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,7 +22,7 @@ import br.unitins.ecommerce.dto.municipio.MunicipioDTO;
 import br.unitins.ecommerce.dto.municipio.MunicipioResponseDTO;
 import br.unitins.ecommerce.service.muncipio.MunicipioService;
 
-@Path("/muncipios")
+@Path("/municipios")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class MunicipioResource {
@@ -45,7 +44,6 @@ public class MunicipioResource {
     }
 
     @POST
-    @Transactional
     public Response insert(MunicipioDTO municipioDto) {
 
         try {
@@ -67,7 +65,6 @@ public class MunicipioResource {
 
     @PUT
     @Path("/{id}")
-    @Transactional
     public Response update(@PathParam("id") Long id, MunicipioDTO municipioDto) {
 
         try {
@@ -90,7 +87,6 @@ public class MunicipioResource {
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
 
         municipioService.delete(id);

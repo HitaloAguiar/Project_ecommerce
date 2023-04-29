@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -60,6 +61,7 @@ public class CelularImplService implements CelularService {
     }
 
     @Override
+    @Transactional
     public CelularResponseDTO insert(CelularDTO celularDto) throws ConstraintViolationException {
 
         validar(celularDto);
@@ -88,6 +90,7 @@ public class CelularImplService implements CelularService {
     }
 
     @Override
+    @Transactional
     public CelularResponseDTO update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
 
         validar(celularDto);
@@ -114,6 +117,7 @@ public class CelularImplService implements CelularService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
 
         if (id == null)
@@ -228,7 +232,7 @@ public class CelularImplService implements CelularService {
         List<Celular> list = celularRepository.filterByEntrePreco(precoMin, precoMax);
 
         if (list == null)
-        throw new NullPointerException("Nenhum Celular encontrado");
+            throw new NullPointerException("Nenhum Celular encontrado");
 
         return list.stream()
                     .map(CelularResponseDTO::new)

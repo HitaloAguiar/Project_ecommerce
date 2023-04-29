@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -55,6 +56,7 @@ public class MunicipioImplService implements MunicipioService {
     }
 
     @Override
+    @Transactional
     public MunicipioResponseDTO insert(MunicipioDTO municipioDto) throws ConstraintViolationException {
         
         validar(municipioDto);
@@ -71,6 +73,7 @@ public class MunicipioImplService implements MunicipioService {
     }
 
     @Override
+    @Transactional
     public MunicipioResponseDTO update(Long id, MunicipioDTO municipioDto) throws ConstraintViolationException, NotFoundException {
         
         validar(municipioDto);
@@ -88,6 +91,7 @@ public class MunicipioImplService implements MunicipioService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
         
         if (id == null)
@@ -105,6 +109,7 @@ public class MunicipioImplService implements MunicipioService {
     }
 
     @Override
+    @Transactional
     public void delete(Estado estado) {
         
         List<Municipio> listaMunicipio = municipioRepository.findByEstado(estado);

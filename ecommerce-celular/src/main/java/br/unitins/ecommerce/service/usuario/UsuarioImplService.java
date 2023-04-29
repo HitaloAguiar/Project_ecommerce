@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -69,6 +70,7 @@ public class UsuarioImplService implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public UsuarioResponseDTO insert(UsuarioDTO usuarioDto) throws ConstraintViolationException {
         
         validar(usuarioDto);
@@ -96,6 +98,7 @@ public class UsuarioImplService implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public UsuarioResponseDTO update(Long id, UsuarioDTO usuarioDto) throws ConstraintViolationException, NotFoundException {
         
         validar(usuarioDto);
@@ -123,6 +126,7 @@ public class UsuarioImplService implements UsuarioService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
         
         if (id == null)
@@ -200,7 +204,7 @@ public class UsuarioImplService implements UsuarioService {
 
     private void updateTelefoneOpcional(Usuario usuario, TelefoneDTO telefoneDto) {
 
-        telefoneService.updateTelefonePrincipal(usuario, telefoneDto);
+        telefoneService.updateTelefoneOpcional(usuario, telefoneDto);
     }
 
     private Endereco insertEndereco(EnderecoDTO enderecoDto) throws ConstraintViolationException {

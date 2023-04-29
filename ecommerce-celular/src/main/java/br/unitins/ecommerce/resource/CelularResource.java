@@ -3,7 +3,6 @@ package br.unitins.ecommerce.resource;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -45,7 +44,6 @@ public class CelularResource {
     }
 
     @POST
-    @Transactional
     public Response insert(CelularDTO celularDto) {
 
         try {
@@ -67,7 +65,6 @@ public class CelularResource {
 
     @PUT
     @Path("/{id}")
-    @Transactional
     public Response update(@PathParam("id") Long id, CelularDTO celularDto) {
 
         try {
@@ -90,7 +87,6 @@ public class CelularResource {
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
 
         celularService.delete(id);
@@ -150,7 +146,7 @@ public class CelularResource {
     }
 
     @GET
-    @Path("/filterByEntrePreco/{precoMin}&{precoMax}")
+    @Path("/filterByEntrePreco/{precoMin}/{precoMax}")
     public List<CelularResponseDTO> filterByEntrePreco (@PathParam("precoMin") Double precoMin, @PathParam("precoMax") Double precoMax) throws NullPointerException {
 
         return celularService.filterByEntrePreco(precoMin, precoMax);

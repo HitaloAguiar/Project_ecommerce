@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -50,6 +51,7 @@ public class EstadoImplService implements EstadoService {
     }
 
     @Override
+    @Transactional
     public EstadoResponseDTO insert(EstadoDTO estadoDto) throws ConstraintViolationException {
 
         validar(estadoDto);
@@ -66,6 +68,7 @@ public class EstadoImplService implements EstadoService {
     }
 
     @Override
+    @Transactional
     public EstadoResponseDTO update(Long id, EstadoDTO estadoDto) throws ConstraintViolationException {
 
         validar(estadoDto);
@@ -80,6 +83,7 @@ public class EstadoImplService implements EstadoService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
 
         if (id == null)

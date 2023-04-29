@@ -22,8 +22,8 @@ public record MunicipioResponseDTO (
 
         Map<String, Object> estado = new HashMap<>();
 
-        estado.put("nome:", nome);
-        estado.put("sigla:", sigla);
+        estado.put("nome", nome);
+        estado.put("sigla", sigla);
 
         return estado;
     }

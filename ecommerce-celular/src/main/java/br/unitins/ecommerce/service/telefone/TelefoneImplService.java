@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -24,6 +25,7 @@ public class TelefoneImplService implements TelefoneService {
     Validator validator;
 
     @Override
+    @Transactional
     public Telefone insertTelefone(TelefoneDTO telefoneDTO) throws ConstraintViolationException {
         
         validar(telefoneDTO);
@@ -39,6 +41,7 @@ public class TelefoneImplService implements TelefoneService {
     }
 
     @Override
+    @Transactional
     public void updateTelefonePrincipal(Usuario usuario, TelefoneDTO telefoneDto) throws ConstraintViolationException {
         
         validar(telefoneDto);
@@ -51,6 +54,7 @@ public class TelefoneImplService implements TelefoneService {
     }
 
     @Override
+    @Transactional
     public void updateTelefoneOpcional(Usuario usuario, TelefoneDTO telefoneDto) throws ConstraintViolationException {
         
         validar(telefoneDto);

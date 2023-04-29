@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -58,6 +59,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public AvaliacaoResponseDTO insert(AvaliacaoDTO avaliacaoDto) throws ConstraintViolationException {
 
         validar(avaliacaoDto);
@@ -80,6 +82,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public AvaliacaoResponseDTO update(Long id, AvaliacaoDTO avaliacaoDto) throws ConstraintViolationException {
 
         validar(avaliacaoDto);
@@ -100,6 +103,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) throws IllegalArgumentException, NotFoundException {
 
         if (id == null)
@@ -115,6 +119,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public void delete(Produto produto) {
 
         List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByProduto(produto);
@@ -126,6 +131,7 @@ public class AvaliacaoImplService implements AvaliacaoService {
     }
 
     @Override
+    @Transactional
     public void delete(Usuario usuario) {
         
         List<Avaliacao> listaAvaliacao = avaliacaoRepository.findByUsuario(usuario);

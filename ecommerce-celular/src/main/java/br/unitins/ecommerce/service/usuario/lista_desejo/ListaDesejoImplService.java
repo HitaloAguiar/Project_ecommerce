@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -40,6 +41,7 @@ public class ListaDesejoImplService implements ListaDesejoService {
     }
 
     @Override
+    @Transactional
     public void insertProdutoIntoListaDesejo(ListaDesejoDTO listaDto) throws NullPointerException {
        
         validar(listaDto);
@@ -53,6 +55,7 @@ public class ListaDesejoImplService implements ListaDesejoService {
     }
 
     @Override
+    @Transactional
     public void deleteProdutoFromListaDesejo(Long id, Long idProduto) throws NullPointerException {
         
         Usuario usuario = usuarioRepository.findById(id);
@@ -64,6 +67,7 @@ public class ListaDesejoImplService implements ListaDesejoService {
     }
 
     @Override
+    @Transactional
     public void deleteProdutoFromAllListaDesejo(Produto produto) {
         
         List<Usuario> usuarios = usuarioRepository.findAll().list();

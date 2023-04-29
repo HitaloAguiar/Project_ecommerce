@@ -3,7 +3,6 @@ package br.unitins.ecommerce.resource;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -45,7 +44,6 @@ public class EstadoResource {
     }
 
     @POST
-    @Transactional
     public Response insert(EstadoDTO estadoDto) {
 
         try {
@@ -67,7 +65,6 @@ public class EstadoResource {
 
     @PUT
     @Path("/{id}")
-    @Transactional
     public Response update(@PathParam("id") Long id, EstadoDTO estadoDto) {
 
         try {
@@ -90,7 +87,6 @@ public class EstadoResource {
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
 
         estadoService.delete(id);

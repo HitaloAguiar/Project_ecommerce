@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
@@ -30,6 +31,7 @@ public class EnderecoImplService implements EnderecoService {
     Validator validator;
 
     @Override
+    @Transactional
     public Endereco insertEndereco(EnderecoDTO enderecoDto) throws ConstraintViolationException {
         
         validar(enderecoDto);
@@ -54,6 +56,7 @@ public class EnderecoImplService implements EnderecoService {
     }
 
     @Override
+    @Transactional
     public void updateEndereco(Usuario usuario, EnderecoDTO enderecoDTO) throws ConstraintViolationException {
         
         validar(enderecoDTO);
@@ -66,6 +69,7 @@ public class EnderecoImplService implements EnderecoService {
     }
 
     @Override
+    @Transactional
     public void delete(Municipio municipio) {
 
         List<Endereco> listaEndereco = enderecoRepository.findByMunicipio(municipio);

@@ -40,8 +40,8 @@ public record AvaliacaoResponseDTO(
 
         Map<String, Object> produto = new HashMap<>();
 
-        produto.put("Id:", id);
-        produto.put("Nome:", nome);
+        produto.put("id", id);
+        produto.put("nome", nome);
 
         return produto;
     }
@@ -50,9 +50,9 @@ public record AvaliacaoResponseDTO(
 
         Map<String, Object> usuario = new HashMap<>();
 
-        usuario.put("Id:", id);
-        usuario.put("Nome:", nome);
-        usuario.put("Email:", email);
+        usuario.put("id", id);
+        usuario.put("nome", nome);
+        usuario.put("email", email);
 
         return usuario;
     }

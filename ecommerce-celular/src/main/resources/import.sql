@@ -29,9 +29,9 @@ INSERT INTO estado (nome, sigla) VALUES ('Pará', 'PA');
 INSERT INTO estado (nome, sigla) VALUES ('Tocantins', 'TO');
 
 INSERT INTO municipio (nome, id_estado) VALUES ('Manaus', 2);
-INSERT INTO municipio (nome, id_estado) VALUES ('Palmas', 4);
-INSERT INTO municipio (nome, id_estado) VALUES ('Guaraí', 4);
-INSERT INTO municipio (nome, id_estado) VALUES ('Belém', 3);
+INSERT INTO municipio (nome, id_estado) VALUES ('Palmas', 5);
+INSERT INTO municipio (nome, id_estado) VALUES ('Guaraí', 5);
+INSERT INTO municipio (nome, id_estado) VALUES ('Belém', 4);
 INSERT INTO municipio (nome, id_estado) VALUES ('Goiânia', 3);
 
 INSERT INTO endereco (logradouro, bairro, numero, cep, id_municipio) VALUES ('alameda 12', 'Quadra 708 Sul', 'lote 10', '77082-012', 2);

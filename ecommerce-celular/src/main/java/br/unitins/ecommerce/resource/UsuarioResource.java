@@ -3,7 +3,6 @@ package br.unitins.ecommerce.resource;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -47,7 +46,6 @@ public class UsuarioResource {
     }
 
     @POST
-    @Transactional
     public Response insert(UsuarioDTO usuarioDto) {
 
         try {
@@ -69,7 +67,6 @@ public class UsuarioResource {
 
     @PUT
     @Path("/{id}")
-    @Transactional
     public Response update(@PathParam("id") Long id, UsuarioDTO usuarioDto) {
 
         try {
@@ -92,7 +89,6 @@ public class UsuarioResource {
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
 
         usuarioService.delete(id);
@@ -118,7 +114,6 @@ public class UsuarioResource {
 
     @POST
     @Path("/lista_desejo")
-    @Transactional
     public Response insertListaDesejo(ListaDesejoDTO listaDto) {
 
         try {
@@ -140,8 +135,7 @@ public class UsuarioResource {
     }
 
     @DELETE
-    @Path("/lista_desejo/{idUsuario}&{idProduto}")
-    @Transactional
+    @Path("/lista_desejo/{idUsuario}/{idProduto}")
     public Response deleteProdutoFromListaDesejo(@PathParam("idUsuario") Long idUsuario, @PathParam("idProduto") Long idProdutoListaDesejo) {
 
         usuarioService.deleteProdutoFromListaDesejo(idUsuario, idProdutoListaDesejo);
