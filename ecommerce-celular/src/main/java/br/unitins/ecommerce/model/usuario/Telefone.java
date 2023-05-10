@@ -1,7 +1,7 @@
 package br.unitins.ecommerce.model.usuario;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
 import br.unitins.ecommerce.model.DefaultEntity;
 

@@ -17,8 +17,8 @@ public record ListaDesejoResponseDTO(
     public ListaDesejoResponseDTO (Usuario usuario) {
 
         this(AvaliacaoResponseDTO.viewUsuario(usuario.getId(),
-                                            usuario.getNome(),
-                                            usuario.getEmail()),
+                                            usuario.getPessoaFisica().getNome(),
+                                            usuario.getPessoaFisica().getEmail()),
             viewProdutos(usuario.getProdutos()));
     }
 

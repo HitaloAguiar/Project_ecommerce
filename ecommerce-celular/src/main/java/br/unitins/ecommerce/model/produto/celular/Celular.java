@@ -1,8 +1,8 @@
 package br.unitins.ecommerce.model.produto.celular;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 import br.unitins.ecommerce.model.produto.Produto;
 

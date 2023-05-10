@@ -1,6 +1,6 @@
 package br.unitins.ecommerce.dto.telefone;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 public record TelefoneDTO(
     @NotBlank(message = "O campo código de área não pode ser nulo")

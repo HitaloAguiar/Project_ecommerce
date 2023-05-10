@@ -2,7 +2,7 @@ package br.unitins.ecommerce.repository;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.endereco.Municipio;
@@ -16,7 +16,7 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
         if (logradouro == null)
             return null;
 
-        return find("FROM Endereco WHERE UPPER(UNACCENT(logradouro)) LIKE UNACCENT(?1)", "%" + logradouro.toUpperCase() + "%").list();
+        return find("FROM Endereco WHERE UNACCENT(UPPER(logradouro)) LIKE UNACCENT(?1)", "%" + logradouro.toUpperCase() + "%").list();
     }
 
     public List<Endereco> findByBairro(String bairro) {
@@ -24,7 +24,7 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
         if (bairro == null)
             return null;
 
-        return find("FROM Endereco WHERE UPPER(UNACCENT(bairro)) LIKE UNACCENT(?1)", "%" + bairro.toUpperCase() + "%").list();
+        return find("FROM Endereco WHERE UNACCENT(UPPER(bairro)) LIKE UNACCENT(?1)", "%" + bairro.toUpperCase() + "%").list();
     }
 
     public List<Endereco> findByCep(String cep) {
@@ -32,7 +32,7 @@ public class EnderecoRepository implements PanacheRepository<Endereco> {
         if (cep == null)
             return null;
 
-        return find("FROM Endereco WHERE UPPER(UNACCENT(cep)) LIKE UNACCENT(?1)", "%" + cep.toUpperCase() + "%").list();
+        return find("FROM Endereco WHERE UNACCENT(UPPER(cep)) LIKE UNACCENT(?1)", "%" + cep.toUpperCase() + "%").list();
     }
 
     public List<Endereco> findByMunicipio(Municipio municipio) {

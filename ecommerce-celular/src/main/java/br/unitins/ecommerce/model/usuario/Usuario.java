@@ -2,35 +2,27 @@ package br.unitins.ecommerce.model.usuario;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
 
-// IMPLEMENTAR O LISTA DESEJO
-// IMPLEMENTAR O CRUD DE AVALIACAO
-
 @Entity
 public class Usuario extends DefaultEntity {
 
-    @Column(nullable = false)
-    private String nome;
-
-    @Column(nullable = false, unique = true)
-    private String email;
+    @OneToOne
+    @JoinColumn(name = "id_pessoa_fisica", unique = true, nullable = false)
+    private PessoaFisica pessoaFisica;
 
     @Column(nullable = false)
     private String senha;
-
-    @Column(nullable = false, unique = true, length = 11)
-    private String cpf;
 
     @ManyToMany
     @JoinTable(name = "lista_desejo",
@@ -51,36 +43,12 @@ public class Usuario extends DefaultEntity {
     @JoinColumn(name = "id_telefone_opcional", unique = true)
     private Telefone telefoneOpcional;
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getSenha() {
         return senha;
     }
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public List<Produto> getProdutos() {
@@ -115,4 +83,11 @@ public class Usuario extends DefaultEntity {
         this.telefoneOpcional = telefoneOpcional;
     }
 
+    public PessoaFisica getPessoaFisica() {
+        return pessoaFisica;
+    }
+
+    public void setPessoaFisica(PessoaFisica pessoaFisica) {
+        this.pessoaFisica = pessoaFisica;
+    }
 }

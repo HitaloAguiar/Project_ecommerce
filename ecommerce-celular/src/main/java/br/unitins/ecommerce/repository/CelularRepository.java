@@ -2,8 +2,7 @@ package br.unitins.ecommerce.repository;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-
+import jakarta.enterprise.context.ApplicationScoped;
 import br.unitins.ecommerce.model.produto.Marca;
 import br.unitins.ecommerce.model.produto.celular.Celular;
 import br.unitins.ecommerce.model.produto.celular.Cor;
@@ -18,7 +17,7 @@ public class CelularRepository implements PanacheRepository<Celular> {
         if (nome == null)
             return null;
 
-        return find("FROM Celular WHERE UPPER(UNACCENT(nome)) LIKE UNACCENT(?1)", "%" + nome.toUpperCase() + "%").list();
+        return find("FROM Celular WHERE UNACCENT(UPPER(nome)) LIKE UNACCENT(?1)", "%" + nome.toUpperCase() + "%").list();
     }
 
     public List<Celular> findBySistemaOperacional (SistemaOperacional sistemaOperacional) {

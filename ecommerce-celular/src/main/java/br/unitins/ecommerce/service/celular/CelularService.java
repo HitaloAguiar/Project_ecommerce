@@ -15,7 +15,7 @@ public interface CelularService {
 
     CelularResponseDTO insert(CelularDTO celularDto);
 
-    CelularResponseDTO update(Long id, CelularDTO celularDto);
+    void update(Long id, CelularDTO celularDto);
 
     void delete(Long id);
 

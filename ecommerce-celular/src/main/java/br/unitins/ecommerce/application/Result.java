@@ -3,7 +3,7 @@ package br.unitins.ecommerce.application;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 public class Result {
 

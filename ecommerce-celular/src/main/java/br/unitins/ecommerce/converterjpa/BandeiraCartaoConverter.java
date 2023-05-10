@@ -1,7 +1,7 @@
 package br.unitins.ecommerce.converterjpa;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import br.unitins.ecommerce.model.pagamento.BandeiraCartao;
 

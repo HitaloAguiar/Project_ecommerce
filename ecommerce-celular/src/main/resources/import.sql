@@ -49,25 +49,32 @@ INSERT INTO telefone (codigoarea, numero) VALUES ('092', '98382-0912');
 INSERT INTO telefone (codigoarea, numero) VALUES ('012', '99928-0912');
 INSERT INTO telefone (codigoarea, numero) VALUES ('071', '99283-8723');
 
-INSERT INTO usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-            VALUES ('João Aguiar', 'joao_aguia@gmail.com', 'joao1234', '09112332145',
-                    1, 2, 1);
+INSERT INTO pessoa (nome) VALUES ('João Aguiar');
+INSERT INTO pessoa (nome) VALUES ('Maria Fernanda');
+INSERT INTO pessoa (nome) VALUES ('Paulo Vitor');
+INSERT INTO pessoa (nome) VALUES ('Julia Ramos');
+INSERT INTO pessoa (nome) VALUES ('Lucas Ferreira');
 
-INSERT INTO usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal)
-            VALUES ('Maria Fernanda', 'mariaF@gmail.com', 'senha1234', '89114182345',
-                    3, 3);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('09112332145', 'joao_aguia@gmail.com', 1, 1);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('89114182345', 'mariaF@gmail.com', 2, 2);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('19429301284', 'paulo_gaymer@gmail.com', 1, 3);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('90819287304', 'julia.ra@gmail.com', 2, 4);
+INSERT INTO pessoaFisica (cpf, email, sexo, id) VALUES ('92874291092', 'lucas_ferreira@gmail.com', 1, 5);
 
-INSERT INTO usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-            VALUES ('Paulo Vitor', 'paulo_gaymer@gmail.com', 'pa1000ulo', '19429301284',
-                    2, 4, 5);
+INSERT INTO usuario (id_pessoa_fisica, senha, id_endereco, id_telefone_principal,
+                id_telefone_opcional) VALUES (1, 'joao1234', 1, 2, 1);
 
-INSERT INTO usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal, id_telefone_opcional)
-            VALUES ('Julia Ramos', 'julia.ra@gmail.com', 'julia1234', '90819287304',
-                    5, 6, 7);
+INSERT INTO usuario (id_pessoa_fisica, senha, id_endereco, id_telefone_principal)
+            VALUES (2, 'senha1234', 3, 3);
 
-INSERT INTO usuario (nome, email, senha, cpf, id_endereco, id_telefone_principal)
-            VALUES ('Lucas Ferreira', 'lucas_ferreira@gmail.com', 'lucas890', '92874291092',
-                    4, 8);
+INSERT INTO usuario (id_pessoa_fisica, senha, id_endereco, id_telefone_principal,
+                id_telefone_opcional) VALUES (3, 'pa1000ulo', 2, 4, 5);
+
+INSERT INTO usuario (id_pessoa_fisica, senha, id_endereco, id_telefone_principal,
+                id_telefone_opcional) VALUES (4, 'julia1234', 5, 6, 7);
+
+INSERT INTO usuario (id_pessoa_fisica, senha, id_endereco, id_telefone_principal)
+            VALUES (5, 'lucas890', 4, 8);
 
 INSERT INTO lista_desejo (id_usuario, id_produto) VALUES (1, 3);
 INSERT INTO lista_desejo (id_usuario, id_produto) VALUES (2, 3);

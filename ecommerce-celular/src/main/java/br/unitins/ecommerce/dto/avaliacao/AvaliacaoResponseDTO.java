@@ -32,8 +32,8 @@ public record AvaliacaoResponseDTO(
             viewProduto(avaliacao.getProduto().getId(),
                         avaliacao.getProduto().getNome()),
             viewUsuario(avaliacao.getUsuario().getId(),
-                        avaliacao.getUsuario().getNome(),
-                        avaliacao.getUsuario().getEmail()));
+                        avaliacao.getUsuario().getPessoaFisica().getNome(),
+                        avaliacao.getUsuario().getPessoaFisica().getEmail()));
     }
 
     public static Map<String, Object> viewProduto (Long id, String nome) {

@@ -21,9 +21,9 @@ public record UsuarioResponseDTO(
     public UsuarioResponseDTO (Usuario usuario) {
 
         this(usuario.getId(),
-            usuario.getNome(),
-            usuario.getEmail(),
-            usuario.getCpf(),
+            usuario.getPessoaFisica().getNome(),
+            usuario.getPessoaFisica().getEmail(),
+            usuario.getPessoaFisica().getCpf(),
             viewEndereco(usuario.getEndereco().getLogradouro(),
                         usuario.getEndereco().getBairro(), 
                         usuario.getEndereco().getNumero(), 

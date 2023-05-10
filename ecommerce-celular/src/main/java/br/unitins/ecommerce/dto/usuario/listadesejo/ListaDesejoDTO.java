@@ -1,6 +1,6 @@
 package br.unitins.ecommerce.dto.usuario.listadesejo;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public record ListaDesejoDTO(
     @NotNull

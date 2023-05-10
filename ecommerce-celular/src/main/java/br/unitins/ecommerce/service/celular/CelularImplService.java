@@ -4,16 +4,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-import javax.ws.rs.NotFoundException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.ws.rs.NotFoundException;
 
 import br.unitins.ecommerce.dto.celular.CelularDTO;
 import br.unitins.ecommerce.dto.celular.CelularResponseDTO;
+import br.unitins.ecommerce.model.produto.Marca;
 import br.unitins.ecommerce.model.produto.celular.Celular;
 import br.unitins.ecommerce.model.produto.celular.Cor;
 import br.unitins.ecommerce.model.produto.celular.SistemaOperacional;
@@ -91,29 +92,43 @@ public class CelularImplService implements CelularService {
 
     @Override
     @Transactional
-    public CelularResponseDTO update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
+    public void update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
 
         validar(celularDto);
 
-        Celular entity = celularRepository.findById(id);
+        //Celular entity = celularRepository.findById(id);
 
-        entity.setNome(celularDto.nome());
+        celularRepository.update("SET nome = ?1 WHERE id = ?2", celularDto.nome(), id);
 
-        entity.setDescricao(celularDto.descricao());
+        //entity.setNome(celularDto.nome());
 
-        entity.setMarca(marcaRepository.findById(celularDto.idMarca()));
+        celularRepository.update("SET descricao = ?1 WHERE id = ?2", celularDto.descricao(), id);
 
-        entity.setPreco(celularDto.preco());
+        //entity.setDescricao(celularDto.descricao());
 
-        entity.setEstoque(celularDto.estoque());
+        celularRepository.update("SET marca = ?1 WHERE id = ?2", marcaRepository.findById(celularDto.idMarca()), id);
 
-        entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
+        //entity.setMarca(marcaRepository.findById(celularDto.idMarca()));
 
-        entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
+        celularRepository.update("SET preco = ?1 WHERE id = ?2", celularDto.preco(), id);
 
-        entity.setCor(Cor.valueOf(celularDto.cor()));
+        //entity.setPreco(celularDto.preco());
 
-        return new CelularResponseDTO(entity);
+        celularRepository.update("SET estoque = ?1 WHERE id = ?2", celularDto.estoque(), id);
+
+        //entity.setEstoque(celularDto.estoque());
+
+        celularRepository.update("SET versaoSistemaOperacional = ?1 WHERE id = ?2", celularDto.versaoSistemaOperacional(), id);
+
+        //entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
+
+        celularRepository.update("SET sistemaOperacional = ?1 WHERE id = ?2", SistemaOperacional.valueOf(celularDto.sistemaOperacional()), id);
+
+        //entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
+
+        celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
+
+        //entity.setCor(Cor.valueOf(celularDto.cor()));
     }
 
     @Override
@@ -189,11 +204,16 @@ public class CelularImplService implements CelularService {
 
     @Override
     public List<CelularResponseDTO> getByMarca(String nome) throws NullPointerException {
+
+        List<Marca> marca = marcaRepository.findByNome(nome);
+
+        if (marca == null)
+            throw new NullPointerException("Nenhuma marca encontrada");
         
-        List<Celular> list = celularRepository.findByMarca(marcaRepository.findByNome(nome).get(0));
+        List<Celular> list = celularRepository.findByMarca(marca.get(0));
 
         if (list == null)
-            throw new NullPointerException("Nenhuma marca encontrada");
+            throw new NullPointerException("Nenhum celular com essa marca foi encontrado");
 
         return list.stream()
                     .map(CelularResponseDTO::new)

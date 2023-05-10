@@ -1,7 +1,7 @@
 package br.unitins.ecommerce.converterjpa;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import br.unitins.ecommerce.model.produto.celular.SistemaOperacional;
 
@@ -11,7 +11,7 @@ public class SistemaOperacionalConverter implements AttributeConverter<SistemaOp
     @Override
     public Integer convertToDatabaseColumn(SistemaOperacional sistemaOperacional) {
        
-        return sistemaOperacional == null ? null : sistemaOperacional.getId();        
+        return sistemaOperacional == null ? null : sistemaOperacional.getId();
     }
 
     @Override

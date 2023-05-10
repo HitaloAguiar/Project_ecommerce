@@ -2,7 +2,7 @@ package br.unitins.ecommerce.repository;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import br.unitins.ecommerce.model.endereco.Estado;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -15,7 +15,7 @@ public class EstadoRepository implements PanacheRepository<Estado> {
         if (nome == null)
             return null;
 
-        return find("FROM Estado WHERE UPPER(UNACCENT(nome)) LIKE UNACCENT(?1)", "%" + nome.toUpperCase() + "%").list();
+        return find("FROM Estado WHERE UNACCENT(UPPER(nome)) LIKE UNACCENT(?1)", "%" + nome.toUpperCase() + "%").list();
     }
 
     public List<Estado> findBySigla(String sigla) {
@@ -23,6 +23,6 @@ public class EstadoRepository implements PanacheRepository<Estado> {
         if (sigla == null)
             return null;
 
-        return find("FROM Estado WHERE UPPER(UNACCENT(sigla)) LIKE UNACCENT(?1)", "%" + sigla.toUpperCase() + "%").list();
+        return find("FROM Estado WHERE UNACCENT(UPPER(sigla)) LIKE UNACCENT(?1)", "%" + sigla.toUpperCase() + "%").list();
     }
 }
