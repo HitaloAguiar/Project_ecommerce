@@ -9,9 +9,9 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 
 import br.unitins.ecommerce.dto.usuario.PessoaFisicaDTO;
-import br.unitins.ecommerce.model.usuario.PessoaFisica;
-import br.unitins.ecommerce.model.usuario.Sexo;
 import br.unitins.ecommerce.model.usuario.Usuario;
+import br.unitins.ecommerce.model.usuario.pessoafisica.PessoaFisica;
+import br.unitins.ecommerce.model.usuario.pessoafisica.Sexo;
 import br.unitins.ecommerce.repository.PessoaFisicaRepository;
 
 @ApplicationScoped

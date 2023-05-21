@@ -59,18 +59,25 @@ public class TelefoneImplService implements TelefoneService {
         
         validar(telefoneDto);
 
-        if (telefoneDto != null) {
+        Long idTelefone;
 
-            Long idTelefone = usuario.getTelefoneOpcional().getId();
+        if (telefoneDto != null && usuario.getTelefoneOpcional() != null) {
+
+            idTelefone = usuario.getTelefoneOpcional().getId();
 
             usuario.setTelefoneOpcional(insertTelefone(telefoneDto));
 
             deleteTelefone(idTelefone);
         }
-        
+
+        else if (telefoneDto != null && usuario.getTelefoneOpcional() == null) {
+
+            usuario.setTelefoneOpcional(insertTelefone(telefoneDto));
+        }
+
         else if (usuario.getTelefoneOpcional() != null) {
-         
-            Long idTelefone = usuario.getTelefoneOpcional().getId();
+
+            idTelefone = usuario.getTelefoneOpcional().getId();
 
             usuario.setTelefoneOpcional(null);
 

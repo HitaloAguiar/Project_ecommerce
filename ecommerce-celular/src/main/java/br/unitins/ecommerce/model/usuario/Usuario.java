@@ -1,8 +1,11 @@
 package br.unitins.ecommerce.model.usuario;
 
 import java.util.List;
+import java.util.Set;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -13,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.usuario.pessoafisica.PessoaFisica;
 
 @Entity
 public class Usuario extends DefaultEntity {
@@ -21,8 +25,15 @@ public class Usuario extends DefaultEntity {
     @JoinColumn(name = "id_pessoa_fisica", unique = true, nullable = false)
     private PessoaFisica pessoaFisica;
 
+    private String login;
+
     @Column(nullable = false)
     private String senha;
+
+    @ElementCollection
+    @CollectionTable(name = "perfis", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"))
+    @Column(name = "perfil", length = 30)
+    private Set<Perfil> perfis;
 
     @ManyToMany
     @JoinTable(name = "lista_desejo",
@@ -89,5 +100,21 @@ public class Usuario extends DefaultEntity {
 
     public void setPessoaFisica(PessoaFisica pessoaFisica) {
         this.pessoaFisica = pessoaFisica;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public Set<Perfil> getPerfis() {
+        return perfis;
+    }
+
+    public void setPerfis(Set<Perfil> perfis) {
+        this.perfis = perfis;
     }
 }

@@ -9,6 +9,9 @@ import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 
 public record UsuarioDTO(
 
+    @NotBlank(message = "O campo login não pode estar nulo")
+    String login,
+
     @NotBlank(message = "O campo senha não pode estar nulo")
     String senha,
 

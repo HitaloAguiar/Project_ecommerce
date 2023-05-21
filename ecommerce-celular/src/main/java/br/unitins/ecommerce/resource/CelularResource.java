@@ -2,6 +2,7 @@ package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -31,12 +32,14 @@ public class CelularResource {
     CelularService celularService;
 
     @GET
+    @RolesAllowed({"Admin"})
     public List<CelularResponseDTO> getAll() {
 
         return celularService.getAll();
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     @Path("/{id}")
     public CelularResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
 
@@ -44,6 +47,7 @@ public class CelularResource {
     }
 
     @POST
+    @RolesAllowed({"Admin"})
     public Response insert(CelularDTO celularDto) {
 
         try {
@@ -64,15 +68,17 @@ public class CelularResource {
     }
 
     @PUT
+    @RolesAllowed({"Admin"})
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, CelularDTO celularDto) {
 
         try {
 
-            celularService.update(id, celularDto);
+            CelularResponseDTO celularResponseDTO = celularService.update(id, celularDto);
 
             return Response
-                    .status(Status.NO_CONTENT) // 204
+                    .status(Status.OK)
+                    .entity(celularResponseDTO) // 204
                     .build();
         } catch (ConstraintViolationException e) {
 
@@ -86,6 +92,7 @@ public class CelularResource {
     }
 
     @DELETE
+    @RolesAllowed({"Admin"})
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
 
@@ -97,6 +104,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin"})
     @Path("/count")
     public Long count() {
 
@@ -104,6 +112,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/searchByNome/{nome}")
     public List<CelularResponseDTO> getByNome(@PathParam("nome") String nome) throws NullPointerException {
 
@@ -111,6 +120,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/searchBySistemaOperacional/{sistemaOperacional}")
     public List<CelularResponseDTO> getBySistemaOperacional(@PathParam("sistemaOperacional") Integer sistemaOperacional) throws IndexOutOfBoundsException, NullPointerException {
 
@@ -118,6 +128,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/searchByCor/{cor}")
     public List<CelularResponseDTO> getByCor(@PathParam("cor") Integer cor) throws IndexOutOfBoundsException, NullPointerException {
 
@@ -125,6 +136,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/searchByMarca/{marca}")
     public List<CelularResponseDTO> getByMarca (@PathParam("marca") String nomeMarca) throws NullPointerException {
 
@@ -132,6 +144,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/filterByPrecoMin/{precoMin}")
     public List<CelularResponseDTO> filterByPrecoMin (@PathParam("precoMin") Double preco) throws NullPointerException {
 
@@ -139,6 +152,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/filterByPrecoMax/{precoMax}")
     public List<CelularResponseDTO> filterByPrecoMax (@PathParam("precoMax") Double preco) throws NullPointerException {
 
@@ -146,6 +160,7 @@ public class CelularResource {
     }
 
     @GET
+    @RolesAllowed({"Admin","User"})
     @Path("/filterByEntrePreco/{precoMin}/{precoMax}")
     public List<CelularResponseDTO> filterByEntrePreco (@PathParam("precoMin") Double precoMin, @PathParam("precoMax") Double precoMax) throws NullPointerException {
 

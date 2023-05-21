@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import jakarta.inject.Inject;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ public class CelularResourceTest {
     CelularService celularService;
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getAllTest() {
 
         given()
@@ -33,6 +35,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void insertTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -63,6 +66,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void updateTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -107,6 +111,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void deleteTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -140,6 +145,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
@@ -149,6 +155,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByIdTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -170,6 +177,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByNomeTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -191,6 +199,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void getBySistemaOperacionalTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -212,6 +221,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByCorTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -233,6 +243,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByMarcaTest() {
 
         CelularDTO celularDto = new CelularDTO(
@@ -254,6 +265,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByPrecoMinTest() {
 
         Double precoMin = 1200.0;
@@ -265,6 +277,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByPrecoMaxTest() {
 
         Double precoMax = 1400.0;
@@ -278,6 +291,7 @@ public class CelularResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByEntrePrecoTest() {
 
         Double precoMin = 1200.0;

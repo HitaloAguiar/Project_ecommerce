@@ -92,43 +92,31 @@ public class CelularImplService implements CelularService {
 
     @Override
     @Transactional
-    public void update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
+    public CelularResponseDTO update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
 
-        validar(celularDto);
+        // validar(celularDto);
 
-        //Celular entity = celularRepository.findById(id);
+        Celular entity = celularRepository.findById(id);
 
-        celularRepository.update("SET nome = ?1 WHERE id = ?2", celularDto.nome(), id);
+        entity.setCor(Cor.valueOf(celularDto.cor()));
 
-        //entity.setNome(celularDto.nome());
+        entity.setNome(celularDto.nome());
 
-        celularRepository.update("SET descricao = ?1 WHERE id = ?2", celularDto.descricao(), id);
+        entity.setDescricao(celularDto.descricao());
 
-        //entity.setDescricao(celularDto.descricao());
+        entity.setMarca(marcaRepository.findById(celularDto.idMarca()));
 
-        celularRepository.update("SET marca = ?1 WHERE id = ?2", marcaRepository.findById(celularDto.idMarca()), id);
+        entity.setPreco(celularDto.preco());
 
-        //entity.setMarca(marcaRepository.findById(celularDto.idMarca()));
+        entity.setEstoque(celularDto.estoque());
 
-        celularRepository.update("SET preco = ?1 WHERE id = ?2", celularDto.preco(), id);
+        entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
 
-        //entity.setPreco(celularDto.preco());
+        entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
 
-        celularRepository.update("SET estoque = ?1 WHERE id = ?2", celularDto.estoque(), id);
+        // celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
 
-        //entity.setEstoque(celularDto.estoque());
-
-        celularRepository.update("SET versaoSistemaOperacional = ?1 WHERE id = ?2", celularDto.versaoSistemaOperacional(), id);
-
-        //entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
-
-        celularRepository.update("SET sistemaOperacional = ?1 WHERE id = ?2", SistemaOperacional.valueOf(celularDto.sistemaOperacional()), id);
-
-        //entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
-
-        celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
-
-        //entity.setCor(Cor.valueOf(celularDto.cor()));
+        return new CelularResponseDTO(entity);
     }
 
     @Override

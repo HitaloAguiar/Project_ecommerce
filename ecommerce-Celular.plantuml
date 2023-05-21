@@ -62,6 +62,12 @@ Celular, Usuario (com Telefone, Endereco e a "listaDesejo"), Avaliacao, Municipi
         + FEMININO: int
     }
 
+    enum Perfil {
+
+        + ADMIN: int
+        + USER: int
+    }
+
     class Usuario {
 
         - id: Long
@@ -183,6 +189,7 @@ Celular, Usuario (com Telefone, Endereco e a "listaDesejo"), Avaliacao, Municipi
     PessoaFisica -up-|> Pessoa
 
     Usuario "1" --> "1" PessoaFisica
+    Usuario "*" --> "*" Perfil
     Usuario "*" --> "*" Produto: listaDesejo
     Usuario "1" *--> "1" Telefone: telefonePrincipal
     Usuario "1" *--> "1" Telefone: telefoneOpcional

@@ -62,6 +62,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -114,6 +115,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -142,6 +144,7 @@ public class UsuarioResourceTest {
         TelefoneDTO updateTelefoneOpcionalDTO = new TelefoneDTO("011", "97202-9313");
 
         UsuarioDTO updateUsuarioDto = new UsuarioDTO(
+                "Erick",
                 "conteudoA2",
                 updatePessoaFisicaDTO,
                 updateEnderecoDTO,
@@ -200,6 +203,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -257,6 +261,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -293,6 +298,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -329,6 +335,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -371,6 +378,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -420,6 +428,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,
@@ -480,6 +489,7 @@ public class UsuarioResourceTest {
         TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
 
         UsuarioDTO usuarioDto = new UsuarioDTO(
+                "Danilo",
                 "senha1234",
                 pessoaFisicaDTO,
                 enderecoDTO,

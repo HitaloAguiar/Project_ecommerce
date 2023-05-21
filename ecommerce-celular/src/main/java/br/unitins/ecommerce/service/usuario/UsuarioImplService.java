@@ -4,25 +4,11 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
-import jakarta.ws.rs.NotFoundException;
-
-import br.unitins.ecommerce.dto.endereco.EnderecoDTO;
-import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
-import br.unitins.ecommerce.dto.usuario.PessoaFisicaDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
-import br.unitins.ecommerce.model.endereco.Endereco;
 import br.unitins.ecommerce.model.produto.Produto;
-import br.unitins.ecommerce.model.usuario.PessoaFisica;
-import br.unitins.ecommerce.model.usuario.Telefone;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
@@ -30,6 +16,13 @@ import br.unitins.ecommerce.service.endereco.EnderecoService;
 import br.unitins.ecommerce.service.pessoafisica.PessoaFisicaService;
 import br.unitins.ecommerce.service.telefone.TelefoneService;
 import br.unitins.ecommerce.service.usuario.lista_desejo.ListaDesejoService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class UsuarioImplService implements UsuarioService {
@@ -83,16 +76,16 @@ public class UsuarioImplService implements UsuarioService {
 
         Usuario entity = new Usuario();
 
-        entity.setPessoaFisica(insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
+        entity.setPessoaFisica(pessoaFisicaService.insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
 
         entity.setSenha(usuarioDto.senha());
 
-        entity.setEndereco(insertEndereco(usuarioDto.endereco()));
+        entity.setEndereco(enderecoService.insertEndereco(usuarioDto.endereco()));
 
-        entity.setTelefonePrincipal(insertTelefone(usuarioDto.telefonePrincipal()));
-
+        entity.setTelefonePrincipal(telefoneService.insertTelefone(usuarioDto.telefonePrincipal()));
+        
         if (usuarioDto.telefoneOpcional() != null)
-            entity.setTelefoneOpcional(insertTelefone(usuarioDto.telefoneOpcional()));
+            entity.setTelefoneOpcional(telefoneService.insertTelefone(usuarioDto.telefoneOpcional()));
 
         usuarioRepository.persist(entity);
 
@@ -110,15 +103,15 @@ public class UsuarioImplService implements UsuarioService {
         if (entity == null)
             throw new NotFoundException("Número fora das opções disponíveis");
 
-        entity.setPessoaFisica(insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
+        entity.setPessoaFisica(pessoaFisicaService.insertPessoaFisica(usuarioDto.pessoaFisicaDto()));
 
         entity.setSenha(usuarioDto.senha());
 
-        updateEndereco(entity, usuarioDto.endereco());
+        enderecoService.updateEndereco(entity, usuarioDto.endereco());
 
-        updateTelefonePrincipal(entity, usuarioDto.telefonePrincipal());
+        telefoneService.updateTelefonePrincipal(entity, usuarioDto.telefonePrincipal());
 
-        updateTelefoneOpcional(entity, usuarioDto.telefoneOpcional());
+        telefoneService.updateTelefoneOpcional(entity, usuarioDto.telefoneOpcional());
 
         return new UsuarioResponseDTO(entity);
     }
@@ -190,34 +183,23 @@ public class UsuarioImplService implements UsuarioService {
                     .collect(Collectors.toList());
     }
 
-    private PessoaFisica insertPessoaFisica (PessoaFisicaDTO pessoaFisicaDTO) throws ConstraintViolationException {
+    @Override
+    public Usuario getByLoginAndSenha(String login, String senha) {
 
-        return pessoaFisicaService.insertPessoaFisica(pessoaFisicaDTO);
-    }
-
-    private Telefone insertTelefone (TelefoneDTO telefoneDTO) throws ConstraintViolationException {
-
-        return telefoneService.insertTelefone(telefoneDTO);
-    }
-
-    private void updateTelefonePrincipal(Usuario usuario, TelefoneDTO telefoneDto) {
-
-        telefoneService.updateTelefonePrincipal(usuario, telefoneDto);
-    }
-
-    private void updateTelefoneOpcional(Usuario usuario, TelefoneDTO telefoneDto) {
-
-        telefoneService.updateTelefoneOpcional(usuario, telefoneDto);
-    }
-
-    private Endereco insertEndereco(EnderecoDTO enderecoDto) throws ConstraintViolationException {
+        Usuario usuario = usuarioRepository.findByLoginAndSenha(login, senha);
         
-        return enderecoService.insertEndereco(enderecoDto);
+        return usuario;
     }
 
-    private void updateEndereco(Usuario usuario, EnderecoDTO enderecoDTO) {
+    @Override
+    public Usuario getByLogin(String login) throws NullPointerException {
 
-        enderecoService.updateEndereco(usuario, enderecoDTO);
+        Usuario usuario = usuarioRepository.findByLogin(login);
+
+        if (usuario == null)
+            throw new NullPointerException("usuario não encontrado");
+        
+        return usuario;
     }
     
     private void validar(UsuarioDTO usuarioDTO) throws ConstraintViolationException {

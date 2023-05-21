@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.model.usuario;
+package br.unitins.ecommerce.model.usuario.pessoafisica;
 
 public enum Sexo {
     

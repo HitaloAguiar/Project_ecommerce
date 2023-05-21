@@ -1,6 +1,6 @@
 package br.unitins.ecommerce.converterjpa;
 
-import br.unitins.ecommerce.model.usuario.Sexo;
+import br.unitins.ecommerce.model.usuario.pessoafisica.Sexo;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 

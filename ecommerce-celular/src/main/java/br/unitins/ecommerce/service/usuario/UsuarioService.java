@@ -7,6 +7,7 @@ import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
 import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.usuario.Usuario;
 
 public interface UsuarioService {
     
@@ -35,6 +36,10 @@ public interface UsuarioService {
     Long count();
 
     List<UsuarioResponseDTO> getByNome(String nome);
+
+    Usuario getByLoginAndSenha(String login, String senha);
+
+    Usuario getByLogin(String login);
 
     Integer countListaDesejo(Long id);
 }

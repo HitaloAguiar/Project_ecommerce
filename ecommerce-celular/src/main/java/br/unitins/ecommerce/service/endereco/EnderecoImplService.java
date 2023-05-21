@@ -58,8 +58,6 @@ public class EnderecoImplService implements EnderecoService {
     @Override
     @Transactional
     public void updateEndereco(Usuario usuario, EnderecoDTO enderecoDTO) throws ConstraintViolationException {
-        
-        validar(enderecoDTO);
 
         Long idEndereco = usuario.getEndereco().getId();
 

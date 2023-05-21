@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.model.usuario;
+package br.unitins.ecommerce.model.usuario.pessoafisica;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

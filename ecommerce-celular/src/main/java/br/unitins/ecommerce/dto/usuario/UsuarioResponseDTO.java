@@ -62,7 +62,7 @@ public record UsuarioResponseDTO(
         return municipio;
     }
 
-    private static Map<String, Object> viewTelefone (String codigoArea, String numero) {
+    public static Map<String, Object> viewTelefone (String codigoArea, String numero) {
 
         Map<String, Object> telefone = new HashMap<>();
 
