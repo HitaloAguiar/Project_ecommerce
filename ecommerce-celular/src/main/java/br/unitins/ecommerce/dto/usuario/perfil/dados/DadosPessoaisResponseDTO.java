@@ -7,6 +7,7 @@ public record DadosPessoaisResponseDTO(
     String nome,
     String email,
     String cpf,
+    String nomeImagem,
     String sexo
 ) {
     
@@ -16,6 +17,7 @@ public record DadosPessoaisResponseDTO(
             usuario.getPessoaFisica().getNome(),
             usuario.getPessoaFisica().getEmail(),
             usuario.getPessoaFisica().getCpf(),
+            usuario.getNomeImagem(),
             usuario.getPessoaFisica().getSexo().getLabel());
     }
 }

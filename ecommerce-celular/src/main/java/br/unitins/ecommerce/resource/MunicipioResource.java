@@ -2,6 +2,8 @@ package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -27,11 +29,15 @@ import br.unitins.ecommerce.service.muncipio.MunicipioService;
 @Consumes(MediaType.APPLICATION_JSON)
 public class MunicipioResource {
     
+    private static final Logger LOG = Logger.getLogger(MunicipioResource.class);
+
     @Inject
     MunicipioService municipioService;
 
     @GET
     public List<MunicipioResponseDTO> getAll() {
+
+        LOG.info("Buscando todos os muncípios.");
 
         return municipioService.getAll();
     }
@@ -46,6 +52,10 @@ public class MunicipioResource {
     @POST
     public Response insert(MunicipioDTO municipioDto) {
 
+        LOG.info("Inserindo um municipio: " + municipioDto.nome());
+
+        Result result;
+
         try {
 
             return Response
@@ -54,7 +64,21 @@ public class MunicipioResource {
                     .build();
         } catch (ConstraintViolationException e) {
 
-            Result result = new Result(e.getConstraintViolations());
+            LOG.error("Erro ao incluir um municipio.");
+
+            LOG.debug(e.getMessage());
+
+            result = new Result(e.getConstraintViolations());
+
+            return Response
+                    .status(Status.NOT_FOUND)
+                    .entity(result)
+                    .build();
+        } catch (Exception e) {
+
+            LOG.fatal("Erro sem identificação: " + e.getMessage());
+
+            result = new Result(e.getMessage(), false);
 
             return Response
                     .status(Status.NOT_FOUND)

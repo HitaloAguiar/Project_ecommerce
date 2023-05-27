@@ -24,6 +24,13 @@ public class Result {
              .collect(Collectors.joining(", "));
     }
 
+    public Result(String message, boolean success) {
+       
+        this.success = success;
+        this.message = message;
+    }
+
+
     public String getMessage() {
         return message;
     }

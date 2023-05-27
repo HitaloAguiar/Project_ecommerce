@@ -10,9 +10,11 @@ import br.unitins.ecommerce.model.usuario.Usuario;
 
 public record UsuarioResponseDTO(
     Long id,
+    String login,
     String nome,
     String email,
     String cpf,
+    String nomeImagem,
     Map<String, Object> endereco,
     Map<String, Object> telefonePrincipal,
     Map<String, Object> telefoneOpcional
@@ -21,9 +23,11 @@ public record UsuarioResponseDTO(
     public UsuarioResponseDTO (Usuario usuario) {
 
         this(usuario.getId(),
+            usuario.getLogin(),
             usuario.getPessoaFisica().getNome(),
             usuario.getPessoaFisica().getEmail(),
             usuario.getPessoaFisica().getCpf(),
+            usuario.getNomeImagem(),
             viewEndereco(usuario.getEndereco().getLogradouro(),
                         usuario.getEndereco().getBairro(), 
                         usuario.getEndereco().getNumero(), 

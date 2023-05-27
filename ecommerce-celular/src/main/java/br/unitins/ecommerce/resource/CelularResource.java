@@ -74,11 +74,10 @@ public class CelularResource {
 
         try {
 
-            CelularResponseDTO celularResponseDTO = celularService.update(id, celularDto);
+            celularService.update(id, celularDto);
 
             return Response
-                    .status(Status.OK)
-                    .entity(celularResponseDTO) // 204
+                    .status(Status.NO_CONTENT) // 204
                     .build();
         } catch (ConstraintViolationException e) {
 

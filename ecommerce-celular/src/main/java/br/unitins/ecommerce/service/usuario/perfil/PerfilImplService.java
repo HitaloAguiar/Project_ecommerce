@@ -68,6 +68,15 @@ public class PerfilImplService implements PerfilService {
 
     @Override
     @Transactional
+    public void update(Long id, String nomeImagem) {
+   
+        Usuario entity = usuarioRepository.findById(id);
+        
+        entity.setNomeImagem(nomeImagem);
+    }
+
+    @Override
+    @Transactional
     public void updateTelefonePrincipal(Long id, TelefoneDTO telefoneDto) {
         
         Usuario entity = usuarioRepository.findById(id);

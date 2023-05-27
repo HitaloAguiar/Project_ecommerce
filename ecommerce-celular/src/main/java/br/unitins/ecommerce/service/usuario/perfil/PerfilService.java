@@ -11,6 +11,8 @@ public interface PerfilService {
 
     void update (Long id, SenhaDTO senhaDTO);
 
+    void update(Long id, String nomeImagem);
+
     void updateTelefonePrincipal(Long id, TelefoneDTO telefoneDto);
 
     void updateTelefoneOpcional(Long id, TelefoneDTO telefoneDto);

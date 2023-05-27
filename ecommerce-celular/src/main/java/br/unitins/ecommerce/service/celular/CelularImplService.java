@@ -92,7 +92,7 @@ public class CelularImplService implements CelularService {
 
     @Override
     @Transactional
-    public CelularResponseDTO update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
+    public void update(Long id, CelularDTO celularDto) throws ConstraintViolationException {
 
         // validar(celularDto);
 
@@ -112,11 +112,11 @@ public class CelularImplService implements CelularService {
 
         entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
 
-        entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
+        // entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
 
         // celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
 
-        return new CelularResponseDTO(entity);
+        // entity.setCor(Cor.valueOf(celularDto.cor()));
     }
 
     @Override

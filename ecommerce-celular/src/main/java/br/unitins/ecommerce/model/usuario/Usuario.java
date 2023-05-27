@@ -30,6 +30,8 @@ public class Usuario extends DefaultEntity {
     @Column(nullable = false)
     private String senha;
 
+    private String nomeImagem;
+
     @ElementCollection
     @CollectionTable(name = "perfis", joinColumns = @JoinColumn(name = "id_usuario", referencedColumnName = "id"))
     @Column(name = "perfil", length = 30)
@@ -116,5 +118,13 @@ public class Usuario extends DefaultEntity {
 
     public void setPerfis(Set<Perfil> perfis) {
         this.perfis = perfis;
+    }
+
+    public String getNomeImagem() {
+        return nomeImagem;
+    }
+
+    public void setNomeImagem(String nomeImagem) {
+        this.nomeImagem = nomeImagem;
     }
 }
