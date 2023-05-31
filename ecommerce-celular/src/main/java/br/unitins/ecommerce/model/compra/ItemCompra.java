@@ -15,11 +15,31 @@ public class ItemCompra extends DefaultEntity {
     private Integer quantidade;
 
     @Column(nullable = false)
-    private Double preco;
+    private Double precoUnitario;
 
     @ManyToOne
     @JoinColumn(name = "id_produto", nullable = false)
     private Produto produto;
+
+    public ItemCompra (Produto produto, Integer quantidade) {
+
+        this.produto = produto;
+        this.precoUnitario = produto.getPreco();
+        this.quantidade = quantidade;
+    }
+
+    public ItemCompra() {
+        
+    }
+
+    public boolean contains(Produto produto) {
+
+        if (this.produto.getId() == produto.getId())
+            return true;
+        
+        else
+            return false;
+    }
 
     public Integer getQuantidade() {
         return quantidade;
@@ -29,12 +49,17 @@ public class ItemCompra extends DefaultEntity {
         this.quantidade = quantidade;
     }
 
-    public Double getPreco() {
-        return preco;
+    public void updateQuantidade(Integer quantidade) {
+
+        this.quantidade += quantidade;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public Double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(Double preco) {
+        this.precoUnitario = preco;
     }
 
     public Produto getProduto() {

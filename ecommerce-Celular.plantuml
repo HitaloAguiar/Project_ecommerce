@@ -87,8 +87,9 @@ Celular, Usuario (com Telefone, Endereco e a "listaDesejo"), Avaliacao, Municipi
     class Compra {
 
         - id: Long
-        - dataCompra: Date
+        - dataCompra: LocalDate
         - totalCompra: Double
+        - ifConcluida: Boolean
     }
 
     class ItemCompra {

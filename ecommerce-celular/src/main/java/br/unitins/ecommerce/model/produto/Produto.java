@@ -60,6 +60,11 @@ public abstract class Produto extends DefaultEntity {
         this.estoque = estoque;
     }
 
+    public void minusEstoque(Integer estoque) {
+
+        this.estoque -= estoque;
+    }
+
     public Marca getMarca() {
         return marca;
     }
