@@ -16,7 +16,7 @@ import br.unitins.ecommerce.dto.estado.EstadoDTO;
 import br.unitins.ecommerce.dto.estado.EstadoResponseDTO;
 import br.unitins.ecommerce.model.endereco.Estado;
 import br.unitins.ecommerce.repository.EstadoRepository;
-import br.unitins.ecommerce.service.muncipio.MunicipioService;
+import br.unitins.ecommerce.service.municipio.MunicipioService;
 
 @ApplicationScoped
 public class EstadoImplService implements EstadoService {

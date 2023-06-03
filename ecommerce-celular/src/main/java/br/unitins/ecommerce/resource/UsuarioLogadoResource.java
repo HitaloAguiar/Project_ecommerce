@@ -3,6 +3,7 @@ package br.unitins.ecommerce.resource;
 import java.io.IOException;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 
 import br.unitins.ecommerce.application.Result;
@@ -49,6 +50,8 @@ public class UsuarioLogadoResource {
     @Inject
     JsonWebToken tokenJwt;
 
+    private static final Logger LOG = Logger.getLogger(UsuarioLogadoResource.class);
+
     @GET
     @Path("/dados-pessoais")
     @RolesAllowed({"User"})
@@ -57,6 +60,8 @@ public class UsuarioLogadoResource {
         String login = tokenJwt.getSubject();
 
         DadosPessoaisResponseDTO dadosPessoaisUsuario = new DadosPessoaisResponseDTO(usuarioService.getByLogin(login));
+        LOG.infof("Buscando o dados pessoais do usuário: ", login);
+        LOG.debug("ERRO DE DEBUG.");
 
         return Response.ok(dadosPessoaisUsuario).build();
     }
@@ -66,12 +71,22 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"Admin","User"})
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     public Response download(@PathParam("nomeImagem") String nomeImagem) {
+
+        try {
         
-        ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
+            ResponseBuilder response = Response.ok(fileService.download(nomeImagem));
 
-        response.header("Content-Disposition", "attachment;filename="+nomeImagem);
+            response.header("Content-Disposition", "attachment;filename="+nomeImagem);
+            LOG.infof("Download do arquivo %s concluído com sucesso.", nomeImagem);
 
-        return response.build();
+            return response.build();
+        } catch (Exception e) {
+            LOG.errorf("Erro ao realizar o download do arquivo: %s", nomeImagem, e);
+
+            return Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
     }
 
     @GET
@@ -82,6 +97,8 @@ public class UsuarioLogadoResource {
         String login = tokenJwt.getSubject();
 
         TelefonesResponseDTO telefonesResponseDTO = new TelefonesResponseDTO(usuarioService.getByLogin(login));
+        LOG.infof("Buscando o telefones do usuário: ", login);
+        LOG.debug("ERRO DE DEBUG.");
 
         return Response.ok(telefonesResponseDTO).build();
     }
@@ -94,6 +111,8 @@ public class UsuarioLogadoResource {
         String login = tokenJwt.getSubject();
 
         EnderecoResponseDTO enderecoUsuario = new EnderecoResponseDTO(usuarioService.getByLogin(login).getEndereco());
+        LOG.infof("Buscando o endereço do usuário: ", login);
+        LOG.debug("ERRO DE DEBUG.");
 
         return Response.ok(enderecoUsuario).build();
     }
@@ -103,13 +122,23 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User"})
     public Response updateDadosPessoais(DadosPessoaisDTO dadosPessoaisDTO) {
 
-        String login = tokenJwt.getSubject();
+        try {
 
-        Usuario usuario = usuarioService.getByLogin(login);
+            String login = tokenJwt.getSubject();
 
-        perfilService.update(usuario.getId(), dadosPessoaisDTO);
+            Usuario usuario = usuarioService.getByLogin(login);
 
-        return Response.status(Status.NO_CONTENT).build();
+            perfilService.update(usuario.getId(), dadosPessoaisDTO);
+            LOG.info("Dados pessoais atualizados com sucesso.");
+
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            LOG.error("Erro ao atualizar dados pessoais do usuário.", e);
+
+            return Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .build();
+        }
     }
 
     @PATCH
@@ -124,10 +153,12 @@ public class UsuarioLogadoResource {
         try {
 
             perfilService.update(usuario.getId(), senhaDTO);
+            LOG.info("senha atualizada com sucesso.");
 
             return Response.status(Status.NO_CONTENT).build();
         } catch (NotAuthorizedException e) {
 
+            LOG.error("Erro ao atualizar a senha do usuário.", e);
             return Response.status(Status.FORBIDDEN).entity(e.getChallenges()).build();
         }
     }
@@ -143,7 +174,10 @@ public class UsuarioLogadoResource {
         try {
 
             nomeImagem = fileService.salvarImagemUsuario(form.getImagem(), form.getNomeImagem());
+            LOG.infof("Imagem salva com sucesso: %s", nomeImagem);
         } catch (IOException e) {
+
+            LOG.error("Erro ao salvar a imagem do produto.", e);
 
             Result result = new Result(e.getMessage());
 
@@ -165,13 +199,21 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User"})
     public Response updateTelefonePrincipal(TelefoneDTO telefonePrincipalDTO) {
 
-        String login = tokenJwt.getSubject();
+        try {
 
-        Usuario usuario = usuarioService.getByLogin(login);
+            String login = tokenJwt.getSubject();
 
-        perfilService.updateTelefonePrincipal(usuario.getId(), telefonePrincipalDTO);
+            Usuario usuario = usuarioService.getByLogin(login);
 
-        return Response.status(Status.NO_CONTENT).build();
+            perfilService.updateTelefonePrincipal(usuario.getId(), telefonePrincipalDTO);
+            LOG.info("Telefone principal atualizado com sucesso.");
+
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+
+            LOG.error("Erro ao atualizar o telefone do usuário.", e);
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PATCH
@@ -179,13 +221,21 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User"})
     public Response updateTelefoneOpcional(TelefoneDTO telefoneOpcionalDTO) {
 
-        String login = tokenJwt.getSubject();
+        try {
 
-        Usuario usuario = usuarioService.getByLogin(login);
+            String login = tokenJwt.getSubject();
 
-        perfilService.updateTelefoneOpcional(usuario.getId(), telefoneOpcionalDTO);
+            Usuario usuario = usuarioService.getByLogin(login);
 
-        return Response.status(Status.NO_CONTENT).build();
+            perfilService.updateTelefoneOpcional(usuario.getId(), telefoneOpcionalDTO);
+            LOG.info("Telefone opcional atualizado com sucesso.");
+
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+
+            LOG.error("Erro ao atualizar o telefone opcional do usuário.", e);
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PATCH
@@ -193,12 +243,20 @@ public class UsuarioLogadoResource {
     @RolesAllowed({"User"})
     public Response updateEndereco(EnderecoDTO enderecoDTO) {
 
-        String login = tokenJwt.getSubject();
+        try {
 
-        Usuario usuario = usuarioService.getByLogin(login);
+            String login = tokenJwt.getSubject();
 
-        perfilService.updateEndereco(usuario.getId(), enderecoDTO);
+            Usuario usuario = usuarioService.getByLogin(login);
 
-        return Response.status(Status.NO_CONTENT).build();
+            perfilService.updateEndereco(usuario.getId(), enderecoDTO);
+            LOG.info("Endereço atualizado com sucesso.");
+
+            return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+
+            LOG.error("Erro ao atualizar o endereço do usuário.", e);
+            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

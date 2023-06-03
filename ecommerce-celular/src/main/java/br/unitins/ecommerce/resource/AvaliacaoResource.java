@@ -2,6 +2,8 @@ package br.unitins.ecommerce.resource;
 
 import java.util.List;
 
+import org.jboss.logging.Logger;
+
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -26,87 +28,114 @@ import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class AvaliacaoResource {
-    
+
     @Inject
     AvaliacaoService avaliacaoService;
 
+    private static final Logger LOG = Logger.getLogger(AvaliacaoResource.class);
+
     @GET
     public List<AvaliacaoResponseDTO> getAll() {
-
+        LOG.info("Buscando todas as avaliações");
+        LOG.debug("ERRO DE DEBUG.");
         return avaliacaoService.getAll();
     }
 
     @GET
     @Path("/{id}")
     public AvaliacaoResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
-
+        LOG.infof("Buscando avaliações por ID. ", id);
+        LOG.debug("ERRO DE DEBUG.");
         return avaliacaoService.getById(id);
     }
 
     @POST
     public Response insert(AvaliacaoDTO avaliacaoDto) {
-
+        Result result = null;
         try {
+            AvaliacaoResponseDTO avaliacao = avaliacaoService.insert(avaliacaoDto);
+            LOG.infof("Produto inserido na lista Desejo.");
 
-            return Response
-                    .status(Status.CREATED) // 201
-                    .entity(avaliacaoService.insert(avaliacaoDto))
-                    .build();
+            return Response.status(Status.CREATED).entity(avaliacao).build();
+
         } catch (ConstraintViolationException e) {
+            LOG.error("Erro ao inserir uma avaliação. ", e);
 
-            Result result = new Result(e.getConstraintViolations());
+            LOG.debug(e.getMessage());
 
-            return Response
-                    .status(Status.NOT_FOUND)
-                    .entity(result)
-                    .build();
+            result = new Result(e.getConstraintViolations());
+
+        } catch (Exception e) {
+            LOG.fatal("Erro sem identificacao: " + e.getMessage());
+
+            result = new Result(e.getMessage(), false);
         }
+        return Response
+                .status(Status.NOT_FOUND)
+                .entity(result)
+                .build();
     }
 
     @PUT
     @Path("/{id}")
     public Response update(@PathParam("id") Long id, AvaliacaoDTO avaliacaoDto) {
-
+        Result result = null;
         try {
 
             avaliacaoService.update(id, avaliacaoDto);
+
+            LOG.infof("Avaliação  atualizada com sucesso.", id);
 
             return Response
                     .status(Status.NO_CONTENT) // 204
                     .build();
         } catch (ConstraintViolationException e) {
+            LOG.errorf("Erro ao atualizar a avaliação. ", id, e);
 
-            Result result = new Result(e.getConstraintViolations());
+            LOG.debug(e.getMessage());
 
+            result = new Result(e.getConstraintViolations());
+        }catch (Exception e){
+            LOG.fatal("Erro sem identificacao: " + e.getMessage());
+            result = new Result(e.getMessage(), false);
+
+        }
             return Response
                     .status(Status.NOT_FOUND)
                     .entity(result)
                     .build();
-        }
+        
     }
 
     @DELETE
     @Path("/{id}")
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
 
-        avaliacaoService.delete(id);
-
-        return Response
-                .status(Status.NO_CONTENT)
-                .build();
+        try {
+            avaliacaoService.delete(id);
+            LOG.infof("avaliação excluída com sucesso.", id);
+            return Response
+                    .status(Status.NO_CONTENT)
+                    .build();
+        } catch (IllegalArgumentException e) {
+            LOG.error("Erro ao deletar avaliação: parâmetros inválidos.", e);
+            throw e;
+        } 
     }
 
     @GET
     @Path("/count")
     public Long count() {
-
+        LOG.info("Contando todas as avaliações.");
+        LOG.debug("ERRO DE DEBUG.");
         return avaliacaoService.count();
     }
 
     @GET
     @Path("/searchByYear/{year}")
     public List<AvaliacaoResponseDTO> getByYear(@PathParam("year") Integer year) throws NullPointerException {
-
+        LOG.infof("Buscando avaliação por ano. ", year);
+        LOG.debug("ERRO DE DEBUG.");
         return avaliacaoService.getByYear(year);
     }
 }

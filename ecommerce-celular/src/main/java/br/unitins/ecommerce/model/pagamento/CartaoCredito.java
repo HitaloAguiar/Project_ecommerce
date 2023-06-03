@@ -19,6 +19,17 @@ public class CartaoCredito extends Pagamento {
 
     private BandeiraCartao bandeiraCartao;
 
+    public CartaoCredito (Double valor, String numeroCartao, String nomeImpressoCartao,
+                            String cpfTitular, BandeiraCartao bandeiraCartao) {
+
+        super(valor);
+
+        this.numeroCartao = numeroCartao;
+        this.nomeImpressoCartao = nomeImpressoCartao;
+        this.cpfTitular = cpfTitular;
+        this.bandeiraCartao = bandeiraCartao;
+    }
+
     public String getNumeroDoCartao() {
         return numeroCartao;
     }

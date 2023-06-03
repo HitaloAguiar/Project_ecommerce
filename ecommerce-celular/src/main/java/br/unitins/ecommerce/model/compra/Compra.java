@@ -8,11 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-// import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToOne;
 
 import br.unitins.ecommerce.model.DefaultEntity;
 import br.unitins.ecommerce.model.endereco.Endereco;
-// import br.unitins.ecommerce.model.pagamento.Pagamento;
+import br.unitins.ecommerce.model.pagamento.Pagamento;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
 @Entity
@@ -28,9 +28,9 @@ public class Compra extends DefaultEntity {
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
-    // @OneToOne
-    // @JoinColumn(name = "id_pagamento", unique = true, nullable = false)
-    // private Pagamento pagamento;
+    @OneToOne
+    @JoinColumn(name = "id_pagamento", unique = true, nullable = false)
+    private Pagamento pagamento;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", nullable = false)
@@ -86,13 +86,13 @@ public class Compra extends DefaultEntity {
         this.endereco = endereco;
     }
 
-    // public Pagamento getPagamento() {
-    //     return pagamento;
-    // }
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
 
-    // public void setPagamento(Pagamento pagamento) {
-    //     this.pagamento = pagamento;
-    // }
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
 
     public Usuario getUsuario() {
         return usuario;

@@ -1,5 +1,7 @@
 package br.unitins.ecommerce.model.pagamento;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -9,13 +11,43 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 public class Pix extends Pagamento {
 
     @Column(nullable = false)
-    private String chavePix;
+    private String nome;
 
-    public String getChavePix() {
-        return chavePix;
+    @Column(nullable = false)
+    private String cpf;
+
+    private LocalDate dataExpiracaoTokenPix;
+
+    public Pix (Double valor, String nome, String cpf) {
+
+        super(valor);
+
+        this.nome = nome;
+        this.cpf = cpf;
+        this.dataExpiracaoTokenPix = LocalDate.now().plusDays(1);
     }
 
-    public void setChavePix(String chavePix) {
-        this.chavePix = chavePix;
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public LocalDate getDataExpiracaoTokenPix() {
+        return dataExpiracaoTokenPix;
+    }
+
+    public void setDataExpiracaoTokenPix(LocalDate dataExpiracaoTokenPix) {
+        this.dataExpiracaoTokenPix = dataExpiracaoTokenPix;
     }
 }

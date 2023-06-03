@@ -135,14 +135,17 @@ Celular, Usuario (com Telefone, Endereco e a "listaDesejo"), Avaliacao, Municipi
 
     class BoletoBancario {
 
-        - codigoBarra: String
+        - nome: String
+        - cpf: String
         - dataGeracaoBoleto: Date
         - dataVencimento: Date
     }
 
     class Pix {
 
-        - chavePix: String
+        - nome: String
+        - cpf: String
+        - dataExpiracaoTokenPix: LocalDate
     }
 
     class CartaoCredito {

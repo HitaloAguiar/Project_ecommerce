@@ -13,8 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import br.unitins.ecommerce.dto.municipio.MunicipioDTO;
 import br.unitins.ecommerce.dto.municipio.MunicipioResponseDTO;
-import br.unitins.ecommerce.service.muncipio.MunicipioService;
-
+import br.unitins.ecommerce.service.municipio.MunicipioService;
 import jakarta.inject.Inject;
 
 @QuarkusTest

@@ -1,6 +1,6 @@
 package br.unitins.ecommerce.model.pagamento;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,37 +10,55 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 @PrimaryKeyJoinColumn(name = "id")
 public class BoletoBancario extends Pagamento {
 
-    @Column(nullable = false)
-    private String codigoBarra;
+    private String nome;
+
+    private String cpf;
 
     @Column(nullable = false)
-    private Date dataGeracaoBoleto;
+    private LocalDate dataGeracaoBoleto;
 
     @Column(nullable = false)
-    private Date dataVencimento;
+    private LocalDate dataVencimento;
 
-    public String getCodigoDeBarra() {
-        return codigoBarra;
+    public BoletoBancario (Double valor, String nome, String cpf) {
+
+        super(valor);
+
+        this.nome = nome;
+        this.cpf = cpf;
+        this.dataGeracaoBoleto = LocalDate.now();
+        this.dataVencimento = LocalDate.now().plusDays(10);
     }
 
-    public void setCodigoDeBarra(String codigoDeBarra) {
-        this.codigoBarra = codigoDeBarra;
-    }
-
-    public Date getDataDeGeracaoDoBoleto() {
+    public LocalDate getDataGeracaoBoleto() {
         return dataGeracaoBoleto;
     }
 
-    public void setDataDeGeracaoDoBoleto(Date dataDeGeracaoDoBoleto) {
+    public void setDataGeracaoBoleto(LocalDate dataDeGeracaoDoBoleto) {
         this.dataGeracaoBoleto = dataDeGeracaoDoBoleto;
     }
 
-    public Date getDataVencimento() {
+    public LocalDate getDataVencimento() {
         return dataVencimento;
     }
 
-    public void setDataVencimento(Date dataVencimento) {
+    public void setDataVencimento(LocalDate dataVencimento) {
         this.dataVencimento = dataVencimento;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 }

@@ -1,4 +1,4 @@
-package br.unitins.ecommerce.service.muncipio;
+package br.unitins.ecommerce.service.municipio;
 
 import java.util.List;
 import java.util.Set;
