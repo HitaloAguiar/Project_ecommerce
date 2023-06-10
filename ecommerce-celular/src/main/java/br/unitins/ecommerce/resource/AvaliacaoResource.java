@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -35,6 +36,7 @@ public class AvaliacaoResource {
     private static final Logger LOG = Logger.getLogger(AvaliacaoResource.class);
 
     @GET
+    @RolesAllowed({ "User", "User_Basic" })
     public List<AvaliacaoResponseDTO> getAll() {
         LOG.info("Buscando todas as avaliações");
         LOG.debug("ERRO DE DEBUG.");
@@ -43,6 +45,7 @@ public class AvaliacaoResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({ "User", "Admin" })
     public AvaliacaoResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
         LOG.infof("Buscando avaliações por ID. ", id);
         LOG.debug("ERRO DE DEBUG.");
@@ -50,6 +53,7 @@ public class AvaliacaoResource {
     }
 
     @POST
+    @RolesAllowed({ "User"})
     public Response insert(AvaliacaoDTO avaliacaoDto) {
         Result result = null;
         try {
@@ -78,6 +82,7 @@ public class AvaliacaoResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({ "User" })
     public Response update(@PathParam("id") Long id, AvaliacaoDTO avaliacaoDto) {
         Result result = null;
         try {
@@ -109,6 +114,7 @@ public class AvaliacaoResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({ "User" })
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException {
 
         try {
@@ -125,6 +131,7 @@ public class AvaliacaoResource {
 
     @GET
     @Path("/count")
+    @RolesAllowed({ "Admin" })
     public Long count() {
         LOG.info("Contando todas as avaliações.");
         LOG.debug("ERRO DE DEBUG.");
@@ -133,6 +140,7 @@ public class AvaliacaoResource {
 
     @GET
     @Path("/searchByYear/{year}")
+    @RolesAllowed({ "User", "Admin" })
     public List<AvaliacaoResponseDTO> getByYear(@PathParam("year") Integer year) throws NullPointerException {
         LOG.infof("Buscando avaliação por ano. ", year);
         LOG.debug("ERRO DE DEBUG.");

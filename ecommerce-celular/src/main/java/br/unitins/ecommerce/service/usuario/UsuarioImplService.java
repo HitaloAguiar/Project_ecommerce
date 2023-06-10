@@ -8,7 +8,9 @@ import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
+import br.unitins.ecommerce.dto.usuario.usuariobasico.UsuarioBasicoResponseDTO;
 import br.unitins.ecommerce.model.produto.Produto;
+import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
@@ -49,12 +51,23 @@ public class UsuarioImplService implements UsuarioService {
     AvaliacaoService avaliacaoService;
 
     @Override
-    public List<UsuarioResponseDTO> getAll() {
+    public List<UsuarioResponseDTO> getAllUsuario() {
         
         return usuarioRepository.findAll()
                                     .stream()
+                                    .filter(usuario -> usuario.getPerfis().contains(Perfil.USER) || usuario.getPerfis().contains(Perfil.ADMIN))
                                     .map(UsuarioResponseDTO::new)
-                                    .collect(Collectors.toList());
+                                    .toList();
+    }
+
+    @Override
+    public List<UsuarioBasicoResponseDTO> getAllUsuarioBasico() {
+
+        return usuarioRepository.findAll()
+                                    .stream()
+                                    .filter(usuario -> usuario.getPerfis().contains(Perfil.USER_BASIC))
+                                    .map(UsuarioBasicoResponseDTO::new)
+                                    .toList();
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Compra extends DefaultEntity {
     private Endereco endereco;
 
     @OneToOne
-    @JoinColumn(name = "id_pagamento", unique = true, nullable = false)
+    @JoinColumn(name = "id_pagamento", unique = true)
     private Pagamento pagamento;
 
     @ManyToOne
@@ -37,7 +37,7 @@ public class Compra extends DefaultEntity {
     private Usuario usuario;
 
     @OneToMany
-    @JoinColumn(name = "id_compra", nullable = false)
+    @JoinColumn(name = "id_compra")
     private List<ItemCompra> itemCompra;
 
     public Compra (Usuario usuario) {

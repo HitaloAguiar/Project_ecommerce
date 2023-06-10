@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
@@ -32,6 +33,7 @@ public class MunicipioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void insertTest() {
 
         MunicipioDTO municipio = new MunicipioDTO(
@@ -49,6 +51,38 @@ public class MunicipioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
+    public void insertForbiddenTest() {
+
+        MunicipioDTO municipio = new MunicipioDTO(
+                "Miracema do Tocantins", 
+                5l);
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(municipio)
+                .when().post("/municipios")
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void insertUnauthorizedTest() {
+
+        MunicipioDTO municipio = new MunicipioDTO(
+                "Miracema do Tocantins", 
+                5l);
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(municipio)
+            .when().post("/municipios")
+            .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void updateTest() {
 
         MunicipioDTO municipioDto = new MunicipioDTO(
@@ -77,6 +111,7 @@ public class MunicipioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void deleteTest() {
 
         MunicipioDTO municipio = new MunicipioDTO(
@@ -105,6 +140,7 @@ public class MunicipioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
@@ -114,17 +150,11 @@ public class MunicipioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByIdTest() {
 
-        MunicipioDTO municipio = new MunicipioDTO(
-            "Miracema do Tocantins",
-            5l
-        );
-
-        Long id = municipioService.insert(municipio).id();
-
         given()
-            .when().get("/municipios/" + id)
+            .when().get("/municipios/" + 2)
             .then()
                 .statusCode(200);
     }
@@ -132,15 +162,8 @@ public class MunicipioResourceTest {
     @Test
     public void getByNomeTest() {
 
-        MunicipioDTO municipio = new MunicipioDTO(
-            "Miracema do Tocantins",
-            5l
-        );
-
-        String nome = municipioService.insert(municipio).nome();
-
         given()
-            .when().get("/municipios/searchByNome/" + nome)
+            .when().get("/municipios/searchByNome/" + "man")
             .then()
                 .statusCode(200);
     }
@@ -148,15 +171,8 @@ public class MunicipioResourceTest {
     @Test
     public void getByNomeEstadoTest() {
 
-        MunicipioDTO municipio = new MunicipioDTO(
-            "Miracema do Tocantins",
-            5l
-        );
-
-        String nomeEstado = (String) municipioService.insert(municipio).estado().get("nome");
-
         given()
-            .when().get("/municipios/searchByNomeEstado/" + nomeEstado)
+            .when().get("/municipios/searchByNomeEstado/" + "ama")
             .then()
                 .statusCode(200);
     }
@@ -164,15 +180,8 @@ public class MunicipioResourceTest {
     @Test
     public void getBySiglaEstadoTest() {
 
-        MunicipioDTO municipio = new MunicipioDTO(
-            "Miracema do Tocantins",
-            5l
-        );
-
-        String siglaEstado = (String) municipioService.insert(municipio).estado().get("sigla");
-
         given()
-            .when().get("/municipios/searchBySiglaEstado/" + siglaEstado)
+            .when().get("/municipios/searchBySiglaEstado/" + "go")
             .then()
                 .statusCode(200);
     }

@@ -98,8 +98,6 @@ public class CelularImplService implements CelularService {
 
         Celular entity = celularRepository.findById(id);
 
-        entity.setCor(Cor.valueOf(celularDto.cor()));
-
         entity.setNome(celularDto.nome());
 
         entity.setDescricao(celularDto.descricao());
@@ -112,9 +110,9 @@ public class CelularImplService implements CelularService {
 
         entity.setVersaoSistemaOperacional(celularDto.versaoSistemaOperacional());
 
-        // entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
+        entity.setSistemaOperacional(SistemaOperacional.valueOf(celularDto.sistemaOperacional()));
 
-        // celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
+        celularRepository.update("SET cor = ?1 WHERE id = ?2", Cor.valueOf(celularDto.cor()), id);
 
         // entity.setCor(Cor.valueOf(celularDto.cor()));
     }

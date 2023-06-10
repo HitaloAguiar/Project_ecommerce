@@ -41,5 +41,6 @@ public class HashImplService implements HashService {
         System.out.println(hashService.getHashSenha("pa1000ulo"));
         System.out.println(hashService.getHashSenha("julia1234"));
         System.out.println(hashService.getHashSenha("lucas890"));
+        System.out.println(hashService.getHashSenha("JohnDev"));
     }
 }

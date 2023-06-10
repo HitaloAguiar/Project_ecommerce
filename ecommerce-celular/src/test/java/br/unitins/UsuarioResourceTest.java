@@ -12,6 +12,7 @@ import java.util.Map;
 import jakarta.inject.Inject;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,8 @@ public class UsuarioResourceTest {
     UsuarioService usuarioService;
     
     @Test
-    public void getAllTest() {
+    @TestSecurity(user = "testUser", roles = {"Admin"})
+    public void getAllUsuarioTest() {
 
         given()
             .when().get("/usuarios")
@@ -41,6 +43,39 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
+    public void getAllUsuarioForbiddenTest() {
+
+        given()
+            .when()
+                .get("/usuarios")
+            .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void getAllUsuarioUnauthorizedTest() {
+
+        given()
+            .when()
+                .get("/usuarios")
+            .then()
+                .statusCode(401);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
+    public void getAllUsuarioBasicoTest() {
+
+        given()
+            .when()
+                .get("/usuarios/usuarios-basicos")
+            .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void insertTest() {
 
         PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
@@ -94,6 +129,7 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void updateTest() {
 
         PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
@@ -182,6 +218,7 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void deleteTest() {
 
         PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
@@ -231,6 +268,7 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
@@ -240,213 +278,65 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByIdTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89012376394",
-            "DaniloDaSilva@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        Long id = usuarioService.insert(usuarioDto).id();
-
         given()
-            .when().get("/usuarios/" + id)
+            .when().get("/usuarios/" + 1)
             .then()
                 .statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByNomeTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89012376794",
-            "DaniloDaSilv@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        String nome = usuarioService.insert(usuarioDto).nome();
-
         given()
-            .when().get("/usuarios/searchByNome/" + nome)
+            .when().get("/usuarios/searchByNome/" + "maria")
             .then()
                 .statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
     public void getListaDesejoTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89076237639",
-            "DaniloDaSil@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        Long idUsuario = usuarioService.insert(usuarioDto).id();
-
-        ListaDesejoDTO listaDesejoDTO = new ListaDesejoDTO(idUsuario, 2l);
-        ListaDesejoDTO listaDesejoDTO2 = new ListaDesejoDTO(idUsuario, 5l);
-
-        usuarioService.insertProdutoIntoListaDesejo(listaDesejoDTO);
-        usuarioService.insertProdutoIntoListaDesejo(listaDesejoDTO2);
-
         given()
-            .when().get("/usuarios/lista_desejo/" + idUsuario)
+            .when().get("/usuarios/lista_desejo/" + 1)
             .then()
             .statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
     public void insertListaDesejoTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89912376396",
-            "Danilo123@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        Long idUsuario = usuarioService.insert(usuarioDto).id();
-
-        ListaDesejoDTO listaDesejoDTO = new ListaDesejoDTO(idUsuario, 1l);
+        ListaDesejoDTO listaDesejoDTO = new ListaDesejoDTO(2l, 1l);
 
         given()
             .contentType(ContentType.JSON)
             .body(listaDesejoDTO)
-            .when().post("/usuarios/lista_desejo")
+            .when().patch("/usuarios/lista_desejo")
             .then()
             .statusCode(201);
 
-        ListaDesejoResponseDTO listaResponse = usuarioService.getListaDesejo(idUsuario);
+        ListaDesejoResponseDTO listaResponse = usuarioService.getListaDesejo(2l);
     
-        assertThat(listaResponse.usuario().get("id"), is(idUsuario));
-        assertThat(listaResponse.usuario().get("nome"), is("Danilo Da Silva"));
-        assertThat(listaResponse.usuario().get("email"), is("Danilo123@unitins.br"));
-        assertThat(listaResponse.usuario().get("email"), is("Danilo123@unitins.br"));
+        assertThat(listaResponse.usuario().get("id"), is(2l));
+        assertThat(listaResponse.usuario().get("login"), is("MariaFer"));
+        assertThat(listaResponse.usuario().get("email"), is("mariaF@gmail.com"));
         assertThat(listaResponse.produtos().get(0).get("id"), is(1l));
         assertThat(listaResponse.produtos().get(0).get("nome"), is("LG K62"));
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
     public void deleteProdutoFromListaDesejoTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89012376391",
-            "DaniloDaS@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        Long idUsuario = usuarioService.insert(usuarioDto).id();
-
-        ListaDesejoDTO listaDesejoDTO = new ListaDesejoDTO(idUsuario, 4l);
-        ListaDesejoDTO listaDesejoDTO2 = new ListaDesejoDTO(idUsuario, 3l);
-
-        usuarioService.insertProdutoIntoListaDesejo(listaDesejoDTO);
-        usuarioService.insertProdutoIntoListaDesejo(listaDesejoDTO2);
-
         given()
-            .pathParam("idUsuario", idUsuario)
-            .pathParam("idProduto", 3l)
-          .when().delete("/usuarios/lista_desejo/{idUsuario}/{idProduto}")
+            .pathParam("idUsuario", 1l)
+            .pathParam("idProduto", 2l)
+          .when().patch("/usuarios/lista_desejo/{idUsuario}/{idProduto}")
           .then()
              .statusCode(204);
 
@@ -454,11 +344,11 @@ public class UsuarioResourceTest {
 
         Boolean ifProdutoRemovido = false;
 
-        listaResponse =  usuarioService.getListaDesejo(idUsuario);
+        listaResponse =  usuarioService.getListaDesejo(1l);
 
         for (Map<String, Object> produto : listaResponse.produtos()) {
             
-            if (produto.get("id") == (Object) 3l) {
+            if (produto.get("id") == (Object) 2l) {
 
                 ifProdutoRemovido = true;
             }
@@ -468,38 +358,11 @@ public class UsuarioResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
     public void countListaDesejoTest() {
 
-        PessoaFisicaDTO pessoaFisicaDTO = new PessoaFisicaDTO(
-            "Danilo Da Silva",
-            "89012376491",
-            "Danilo098@unitins.br",
-            1);
-
-        EnderecoDTO enderecoDTO = new EnderecoDTO(
-            "Avenida Tocantins",
-            "Setor Bueno",
-            "8780",
-            "apto 3",
-            "77780-920",
-            4l);
-
-        TelefoneDTO telefonePrincipalDTO = new TelefoneDTO("067", "98467-8901");
-
-        TelefoneDTO telefoneOpcionalDTO = new TelefoneDTO("067", "4002-8922");
-
-        UsuarioDTO usuarioDto = new UsuarioDTO(
-                "Danilo",
-                "senha1234",
-                pessoaFisicaDTO,
-                enderecoDTO,
-                telefonePrincipalDTO,
-                telefoneOpcionalDTO);
-
-        Long idUsuario = usuarioService.insert(usuarioDto).id();
-
         given()
-            .when().get("/usuarios/lista_desejo/count/" + idUsuario)
+            .when().get("/usuarios/lista_desejo/count/" + 1l)
             .then()
                 .statusCode(200);
     }

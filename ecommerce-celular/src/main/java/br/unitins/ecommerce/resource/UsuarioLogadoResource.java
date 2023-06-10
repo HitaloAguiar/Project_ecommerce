@@ -54,7 +54,7 @@ public class UsuarioLogadoResource {
 
     @GET
     @Path("/dados-pessoais")
-    @RolesAllowed({"User"})
+    @RolesAllowed({ "User", "User_Basic" })
     public Response getDadosPessoais() {
 
         String login = tokenJwt.getSubject();

@@ -3,7 +3,8 @@ package br.unitins.ecommerce.model.usuario;
 public enum Perfil {
 
     ADMIN(1, "Admin"),
-    USER(2, "User");
+    USER(2, "User"),
+    USER_BASIC(3, "User_Basic");
     
     private int id;
     private String label;

@@ -32,7 +32,7 @@ public record AvaliacaoResponseDTO(
             viewProduto(avaliacao.getProduto().getId(),
                         avaliacao.getProduto().getNome()),
             viewUsuario(avaliacao.getUsuario().getId(),
-                        avaliacao.getUsuario().getPessoaFisica().getNome(),
+                        avaliacao.getUsuario().getLogin(),
                         avaliacao.getUsuario().getPessoaFisica().getEmail()));
     }
 
@@ -46,12 +46,12 @@ public record AvaliacaoResponseDTO(
         return produto;
     }
 
-    public static Map<String, Object> viewUsuario (Long id, String nome, String email) {
+    public static Map<String, Object> viewUsuario (Long id, String login, String email) {
 
         Map<String, Object> usuario = new HashMap<>();
 
         usuario.put("id", id);
-        usuario.put("nome", nome);
+        usuario.put("login", login);
         usuario.put("email", email);
 
         return usuario;

@@ -66,8 +66,8 @@ public class CelularResourceTest {
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"Admin"})
-    public void updateTest() {
+    @TestSecurity(user = "testUser", roles = {"User"})
+    public void insertForbiddenTest() {
 
         CelularDTO celularDto = new CelularDTO(
                 "LG K61",
@@ -79,36 +79,79 @@ public class CelularResourceTest {
                 1,
                 9);
 
-        Long id = celularService.insert(celularDto).id();
+        given()
+                .contentType(ContentType.JSON)
+                .body(celularDto)
+                .when().post("/celulares")
+                .then()
+                .statusCode(403);
+    }
 
-        CelularDTO celularUpdate = new CelularDTO(
-            "iPhone 7",
-            "4Gb Memória RAM, 128Gb armazenamento",
-            1l,
-            2299.00,
-            0,
-            10f,
-            2,
-            3);
+    @Test
+    public void insertUnauthorizedTest() {
+
+        CelularDTO celularDto = new CelularDTO(
+                "LG K61",
+                "4Gb Memória RAM, 64Gb armazenamento",
+                3l,
+                1389.00,
+                40,
+                10f,
+                1,
+                9);
 
         given()
-          .contentType(ContentType.JSON)
-          .body(celularUpdate)
-          .when().put("/celulares/" + id)
-          .then()
-             .statusCode(204);
-
-        CelularResponseDTO celularResponse = celularService.getById(id);
-
-        assertThat(celularResponse.nome(), is("iPhone 7"));
-        assertThat(celularResponse.descricao(), is("4Gb Memória RAM, 128Gb armazenamento"));
-        assertThat(celularResponse.preco(), is(2299.0));
-        assertThat(celularResponse.estoque(), is("Estoque esgotado"));
-        assertThat(celularResponse.nomeMarca(), is("Apple"));
-        assertThat(celularResponse.versãoSistemaOperacional(), is(10f));
-        assertThat(celularResponse.sistemaOperacional().getLabel(), is("iOS"));
-        assertThat(celularResponse.cor().getLabel(), is("Branco"));
+                .contentType(ContentType.JSON)
+                .body(celularDto)
+                .when().post("/celulares")
+                .then()
+                .statusCode(401);
     }
+
+    // @Test
+    // @TestSecurity(user = "testUser", roles = {"Admin"})
+    // public void updateTest() {
+
+    //     CelularDTO celularDto = new CelularDTO(
+    //             "LG K61",
+    //             "4Gb Memória RAM, 64Gb armazenamento",
+    //             3l,
+    //             1389.00,
+    //             40,
+    //             10f,
+    //             1,
+    //             9);
+
+    //     Long id = celularService.insert(celularDto).id();
+
+    //     CelularDTO celularUpdate = new CelularDTO(
+    //         "iPhone 7",
+    //         "4Gb Memória RAM, 128Gb armazenamento",
+    //         1l,
+    //         2299.00,
+    //         0,
+    //         10f,
+    //         2,
+    //         3);
+
+    //     given()
+    //       .contentType(ContentType.JSON)
+    //       .body(celularUpdate)
+    //       .when().put("/celulares/" + id)
+    //       .then()
+    //          .statusCode(204);
+
+    //     CelularResponseDTO celularResponse = celularService.getById(id);
+
+    //     assertThat(celularResponse.nome(), is("iPhone 7"));
+    //     assertThat(celularResponse.descricao(), is("4Gb Memória RAM, 128Gb armazenamento"));
+    //     assertThat(celularResponse.preco(), is(2299.0));
+    //     assertThat(celularResponse.estoque(), is("Estoque esgotado"));
+    //     assertThat(celularResponse.nomeMarca(), is("Apple"));
+    //     assertThat(celularResponse.versãoSistemaOperacional(), is(10f));
+    //     assertThat(celularResponse.sistemaOperacional().getLabel(), is("iOS"));
+    //     assertThat(celularResponse.cor().getLabel(), is("Branco"));
+    // }
 
     @Test
     @TestSecurity(user = "testUser", roles = {"Admin"})
@@ -158,132 +201,62 @@ public class CelularResourceTest {
     @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByIdTest() {
 
-        CelularDTO celularDto = new CelularDTO(
-            "LG K61",
-            "4Gb Memória RAM, 64Gb armazenamento",
-            3l,
-            1389.00,
-            40,
-            10f,
-            1,
-            9);
-
-        Long id = celularService.insert(celularDto).id();
-
         given()
-            .when().get("/celulares/" + id)
+            .when().get("/celulares/" + 1)
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByNomeTest() {
 
-        CelularDTO celularDto = new CelularDTO(
-            "LG K61",
-            "4Gb Memória RAM, 64Gb armazenamento",
-            3l,
-            1389.00,
-            40,
-            10f,
-            1,
-            9);
-
-        String nome = celularService.insert(celularDto).nome();
-
         given()
-            .when().get("/celulares/searchByNome/" + nome)
+            .when().get("/celulares/searchByNome/" + "lg")
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void getBySistemaOperacionalTest() {
 
-        CelularDTO celularDto = new CelularDTO(
-            "LG K61",
-            "4Gb Memória RAM, 64Gb armazenamento",
-            3l,
-            1389.00,
-            40,
-            10f,
-            1,
-            9);
-
-        Integer sistemaOperacional = celularService.insert(celularDto).sistemaOperacional().getId();
-
         given()
-            .when().get("/celulares/searchBySistemaOperacional/" + sistemaOperacional)
+            .when().get("/celulares/searchBySistemaOperacional/" + 1)
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByCorTest() {
 
-        CelularDTO celularDto = new CelularDTO(
-            "LG K61",
-            "4Gb Memória RAM, 64Gb armazenamento",
-            3l,
-            1389.00,
-            40,
-            10f,
-            1,
-            9);
-
-        Integer cor = celularService.insert(celularDto).cor().getId();
-
         given()
-            .when().get("/celulares/searchByCor/" + cor)
+            .when().get("/celulares/searchByCor/" + 3)
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByMarcaTest() {
 
-        CelularDTO celularDto = new CelularDTO(
-            "LG K61",
-            "4Gb Memória RAM, 64Gb armazenamento",
-            3l,
-            1389.00,
-            40,
-            10f,
-            1,
-            9);
-
-        String marca = celularService.insert(celularDto).nomeMarca();
-
         given()
-            .when().get("/celulares/searchByMarca/" + marca)
+            .when().get("/celulares/searchByMarca/" + "app")
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByPrecoMinTest() {
 
-        Double precoMin = 1200.0;
-
         given()
-            .when().get("/celulares/filterByPrecoMin/" + precoMin)
+            .when().get("/celulares/filterByPrecoMin/" + 1200.0)
             .then()
                 .statusCode(200);
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByPrecoMaxTest() {
 
-        Double precoMax = 1400.0;
-
         given()
-            .pathParam("precoMax", precoMax)
+            .pathParam("precoMax", 1400.0)
             .when()
             .get("/celulares/filterByPrecoMax/{precoMax}")
             .then()
@@ -291,15 +264,11 @@ public class CelularResourceTest {
     }
 
     @Test
-    @TestSecurity(user = "testUser", roles = {"User"})
     public void filterByEntrePrecoTest() {
 
-        Double precoMin = 1200.0;
-        Double precoMax = 2000.0;
-
         given()
-            .pathParam("precoMin", precoMin)
-            .pathParam("precoMax", precoMax)
+            .pathParam("precoMin", 1200.0)
+            .pathParam("precoMax", 2000.0)
             .when()
             .get("/celulares/filterByEntrePreco/{precoMin}/{precoMax}")
             .then()

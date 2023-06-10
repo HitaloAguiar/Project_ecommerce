@@ -46,7 +46,7 @@ public class AuthResource {
 
             if (usuario == null) {
                 LOG.warn("Usuário não encontrado: " + authDTO.login());
-                return Response.status(Status.NO_CONTENT)
+                return Response.status(Status.NOT_FOUND)
                         .entity("Usuario não encontrado").build();
             }
             LOG.info("Login do usuário bem-sucedido: " + authDTO.login());

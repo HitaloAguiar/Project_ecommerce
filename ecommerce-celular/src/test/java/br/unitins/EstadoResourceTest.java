@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import jakarta.inject.Inject;
 
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void insertTest() {
 
         EstadoDTO estado = new EstadoDTO(
@@ -50,6 +52,38 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
+    public void insertForbiddenTest() {
+
+        EstadoDTO estado = new EstadoDTO(
+                "Roraima", 
+                "RR");
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(estado)
+            .when().post("/estados")
+            .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void insertUnauthorizedTest() {
+
+        EstadoDTO estado = new EstadoDTO(
+                "Roraima", 
+                "RR");
+
+        given()
+            .contentType(ContentType.JSON)
+            .body(estado)
+            .when().post("/estados")
+            .then()
+                .statusCode(401);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void updateTest() {
 
         EstadoDTO estado = new EstadoDTO(
@@ -77,6 +111,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void deleteTest() {
 
         EstadoDTO estado = new EstadoDTO(
@@ -105,6 +140,7 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
@@ -114,17 +150,11 @@ public class EstadoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void getByIdTest() {
 
-        EstadoDTO estado = new EstadoDTO(
-            "Roraima", 
-            "RR"
-        );
-
-        Long id = estadoService.insert(estado).id();
-
         given()
-            .when().get("/estados/" + id)
+            .when().get("/estados/" + 5)
             .then()
                 .statusCode(200);
     }
@@ -132,15 +162,8 @@ public class EstadoResourceTest {
     @Test
     public void getByNomeTest() {
 
-        EstadoDTO estado = new EstadoDTO(
-            "Roraima",
-            "RR"
-        );
-
-        String nome = estadoService.insert(estado).nome();
-
         given()
-            .when().get("/estados/searchByNome/" + nome)
+            .when().get("/estados/searchByNome/" + "ac")
             .then()
                 .statusCode(200);
     }
@@ -148,15 +171,8 @@ public class EstadoResourceTest {
     @Test
     public void getBySiglaTest() {
 
-        EstadoDTO estado = new EstadoDTO(
-            "Roraima",
-            "RR"
-        );
-
-        String sigla = estadoService.insert(estado).sigla();
-
         given()
-            .when().get("/estados/searchBySigla/" + sigla)
+            .when().get("/estados/searchBySigla/" + "to")
             .then()
                 .statusCode(200);
     }

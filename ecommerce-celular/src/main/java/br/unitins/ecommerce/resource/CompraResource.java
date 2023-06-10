@@ -64,7 +64,7 @@ public class CompraResource {
 
     @GET
     @Path("/carrinho")
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "User", "User_Basic" })
     public Response getCompraEmAndamento() {
         Result result = null;
 
@@ -86,7 +86,7 @@ public class CompraResource {
 
     @POST
     @Path("/carrinho/adiconar-item")
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "User", "User_Basic" })
     public Response insertIntoCarrrinho(ItemCompraDTO itemCompraDTO) {
         Result result = null;
 
@@ -111,7 +111,7 @@ public class CompraResource {
 
     @PATCH
     @Path("/carrinho/remover-item/{idProduto}")
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "User", "User_Basic" })
     public Response removeItemFromCarrinho(@PathParam("idProduto") Long idProduto) {
         Result result = null;
 
@@ -136,7 +136,7 @@ public class CompraResource {
 
     @DELETE
     @Path("/carrinho/cancelar-compra")
-    @RolesAllowed({ "User" })
+    @RolesAllowed({ "User", "User_Basic" })
     public Response cancelarCompra() {
         Result result = null;
 

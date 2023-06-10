@@ -6,6 +6,7 @@ import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
 import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
+import br.unitins.ecommerce.dto.usuario.usuariobasico.UsuarioBasicoResponseDTO;
 import br.unitins.ecommerce.model.produto.Produto;
 import br.unitins.ecommerce.model.usuario.Usuario;
 
@@ -13,7 +14,9 @@ public interface UsuarioService {
     
     // Metodos basicos
 
-    List<UsuarioResponseDTO> getAll();
+    List<UsuarioResponseDTO> getAllUsuario();
+
+    public List<UsuarioBasicoResponseDTO> getAllUsuarioBasico();
     
     UsuarioResponseDTO getById(Long id);
 

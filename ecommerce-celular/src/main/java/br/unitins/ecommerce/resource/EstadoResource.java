@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.jboss.logging.Logger;
 
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.Consumes;
@@ -35,6 +37,7 @@ public class EstadoResource {
     private static final Logger LOG = Logger.getLogger(EstadoResource.class);
 
     @GET
+    @PermitAll
     public List<EstadoResponseDTO> getAll() {
         LOG.infof("Buscando todos os estados");
         LOG.debug("ERRO DE DEBUG.");
@@ -43,6 +46,7 @@ public class EstadoResource {
 
     @GET
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public EstadoResponseDTO getById(@PathParam("id") Long id) throws NotFoundException {
         LOG.infof("Buscando estados por ID. ", id);
         LOG.debug("ERRO DE DEBUG.");
@@ -50,6 +54,7 @@ public class EstadoResource {
     }
 
     @POST
+    @RolesAllowed({"Admin"})
     public Response insert(EstadoDTO estadoDto) {
         LOG.infof("Inserindo um estado: %s", estadoDto.nome());
         Result result = null;
@@ -80,6 +85,7 @@ public class EstadoResource {
 
     @PUT
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response update(@PathParam("id") Long id, EstadoDTO estadoDto) {
         Result result = null;
         try {
@@ -109,6 +115,7 @@ public class EstadoResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed({"Admin"})
     public Response delete(@PathParam("id") Long id) throws IllegalArgumentException, NotFoundException {
         try {
             estadoService.delete(id);
@@ -124,6 +131,7 @@ public class EstadoResource {
 
     @GET
     @Path("/count")
+    @RolesAllowed({"Admin"})
     public Long count() {
         LOG.infof("Contando todos os estados");
         LOG.debug("ERRO DE DEBUG.");
@@ -132,6 +140,7 @@ public class EstadoResource {
 
     @GET
     @Path("/searchByNome/{nome}")
+    @PermitAll
     public List<EstadoResponseDTO> getByNome(@PathParam("nome") String nome) throws NullPointerException {
         LOG.infof("Buscando estado pelo  nome. ", nome);
         LOG.debug("ERRO DE DEBUG.");
@@ -140,6 +149,7 @@ public class EstadoResource {
 
     @GET
     @Path("/searchBySigla/{sigla}")
+    @PermitAll
     public List<EstadoResponseDTO> getBySigla(@PathParam("sigla") String sigla) throws NullPointerException {
         LOG.infof("Buscando estado pela sigla. ", sigla);
         LOG.debug("ERRO DE DEBUG.");

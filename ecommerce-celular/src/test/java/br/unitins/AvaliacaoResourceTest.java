@@ -14,6 +14,7 @@ import br.unitins.ecommerce.dto.avaliacao.AvaliacaoDTO;
 import br.unitins.ecommerce.dto.avaliacao.AvaliacaoResponseDTO;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 import io.restassured.http.ContentType;
 
 @QuarkusTest
@@ -23,6 +24,7 @@ public class AvaliacaoResourceTest {
     AvaliacaoService avaliacaoService;
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User_Basic", "User"})
     public void getAllTest() {
 
         given()
@@ -32,23 +34,36 @@ public class AvaliacaoResourceTest {
     }
 
     @Test
-    public void getByIdTest() {
-
-        AvaliacaoDTO avaliacao = new AvaliacaoDTO(
-                "muito bão",
-                5,
-                3l,
-                2l);
-
-        Long id = avaliacaoService.insert(avaliacao).id();
+    @TestSecurity(user = "testUser", roles = {"Admin"})
+    public void getAllForbiddenTest() {
 
         given()
-                .when().get("/avaliacoes/" + id)
+                .when().get("/avaliacoes")
+                .then()
+                .statusCode(403);
+    }
+
+    @Test
+    public void getAllUnauthorizedTest() {
+
+        given()
+                .when().get("/avaliacoes")
+                .then()
+                .statusCode(401);
+    }
+
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
+    public void getByIdTest() {
+
+        given()
+                .when().get("/avaliacoes/" + 2)
                 .then()
                 .statusCode(200);
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void insertTest() {
 
         AvaliacaoDTO avaliacao = new AvaliacaoDTO(
@@ -69,11 +84,12 @@ public class AvaliacaoResourceTest {
                         "produto.id", is(3),
                         "produto.nome", is("Moto G32"),
                         "usuario.id", is(2),
-                        "usuario.nome", is("Maria Fernanda"),
+                        "usuario.login", is("MariaFer"),
                         "usuario.email", is("mariaF@gmail.com"));
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void updateTest() {
 
         AvaliacaoDTO avaliacao = new AvaliacaoDTO(
@@ -104,12 +120,13 @@ public class AvaliacaoResourceTest {
         assertThat(avaliacaoResponse.produto().get("id"), is(2l));
         assertThat(avaliacaoResponse.produto().get("nome"), is("iPhone 10"));
         assertThat(avaliacaoResponse.usuario().get("id"), is(3l));
-        assertThat(avaliacaoResponse.usuario().get("nome"), is("Paulo Vitor"));
+        assertThat(avaliacaoResponse.usuario().get("login"), is("PauloVitor"));
         assertThat(avaliacaoResponse.usuario().get("email"), is("paulo_gaymer@gmail.com"));
 
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void deleteTest() {
 
         AvaliacaoDTO avaliacao = new AvaliacaoDTO(
@@ -138,6 +155,7 @@ public class AvaliacaoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
     public void countTest() {
 
         given()
@@ -147,6 +165,7 @@ public class AvaliacaoResourceTest {
     }
 
     @Test
+    @TestSecurity(user = "testUser", roles = {"User"})
     public void getByYearTest() {
 
         AvaliacaoDTO avaliacao = new AvaliacaoDTO(

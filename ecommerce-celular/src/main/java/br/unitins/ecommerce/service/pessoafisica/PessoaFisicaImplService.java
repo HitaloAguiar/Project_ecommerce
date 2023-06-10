@@ -44,6 +44,20 @@ public class PessoaFisicaImplService implements PessoaFisicaService {
     }
 
     @Override
+    public PessoaFisica insertPessoaFisica(String nome, String email) {
+        
+        PessoaFisica pessoaFisica = new PessoaFisica();
+
+        pessoaFisica.setNome(nome);
+
+        pessoaFisica.setEmail(email);
+
+        pessoaFisicaRepository.persist(pessoaFisica);
+
+        return pessoaFisica;
+    }
+
+    @Override
     public void updatePessoaFisica(Usuario usuario, PessoaFisicaDTO pessoaFisicaDTO) {
         
         validar(pessoaFisicaDTO);
