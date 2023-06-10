@@ -139,6 +139,25 @@ public class CompraResourceTest {
     }
 
     @Test
+    public void pagarBoletoBancarioForbiddenTest() {
+
+        Usuario usuario = usuarioService.getByLogin("Joao_dos_Isekai");
+
+        String token = tokenService.generateJwt(usuario);
+
+        ItemCompraDTO itemCompraDTO = new ItemCompraDTO(1l, 11);
+
+        compraService.insertItemIntoCompra(usuario.getId(), itemCompraDTO);
+
+        given()
+            .header("Authorization", "Bearer " + token)
+            .when()
+                .patch("/compras/carrinho/pagar-boleto-bancario")
+            .then()
+                .statusCode(403);
+    }
+
+    @Test
     public void pagarPixTest() {
 
         Usuario usuario = usuarioService.getByLogin("MariaFer");

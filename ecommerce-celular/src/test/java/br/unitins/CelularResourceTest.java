@@ -108,50 +108,50 @@ public class CelularResourceTest {
                 .statusCode(401);
     }
 
-    // @Test
-    // @TestSecurity(user = "testUser", roles = {"Admin"})
-    // public void updateTest() {
+    @Test
+    @TestSecurity(user = "testUser", roles = {"Admin"})
+    public void updateTest() {
 
-    //     CelularDTO celularDto = new CelularDTO(
-    //             "LG K61",
-    //             "4Gb Memória RAM, 64Gb armazenamento",
-    //             3l,
-    //             1389.00,
-    //             40,
-    //             10f,
-    //             1,
-    //             9);
+        CelularDTO celularDto = new CelularDTO(
+                "LG K61",
+                "4Gb Memória RAM, 64Gb armazenamento",
+                3l,
+                1389.00,
+                40,
+                10f,
+                1,
+                9);
 
-    //     Long id = celularService.insert(celularDto).id();
+        Long id = celularService.insert(celularDto).id();
 
-    //     CelularDTO celularUpdate = new CelularDTO(
-    //         "iPhone 7",
-    //         "4Gb Memória RAM, 128Gb armazenamento",
-    //         1l,
-    //         2299.00,
-    //         0,
-    //         10f,
-    //         2,
-    //         3);
+        CelularDTO celularUpdate = new CelularDTO(
+            "iPhone 7",
+            "4Gb Memória RAM, 128Gb armazenamento",
+            1l,
+            2299.00,
+            0,
+            10f,
+            2,
+            3);
 
-    //     given()
-    //       .contentType(ContentType.JSON)
-    //       .body(celularUpdate)
-    //       .when().put("/celulares/" + id)
-    //       .then()
-    //          .statusCode(204);
+        given()
+          .contentType(ContentType.JSON)
+          .body(celularUpdate)
+          .when().put("/celulares/" + id)
+          .then()
+             .statusCode(204);
 
-    //     CelularResponseDTO celularResponse = celularService.getById(id);
+        CelularResponseDTO celularResponse = celularService.getById(id);
 
-    //     assertThat(celularResponse.nome(), is("iPhone 7"));
-    //     assertThat(celularResponse.descricao(), is("4Gb Memória RAM, 128Gb armazenamento"));
-    //     assertThat(celularResponse.preco(), is(2299.0));
-    //     assertThat(celularResponse.estoque(), is("Estoque esgotado"));
-    //     assertThat(celularResponse.nomeMarca(), is("Apple"));
-    //     assertThat(celularResponse.versãoSistemaOperacional(), is(10f));
-    //     assertThat(celularResponse.sistemaOperacional().getLabel(), is("iOS"));
-    //     assertThat(celularResponse.cor().getLabel(), is("Branco"));
-    // }
+        assertThat(celularResponse.nome(), is("iPhone 7"));
+        assertThat(celularResponse.descricao(), is("4Gb Memória RAM, 128Gb armazenamento"));
+        assertThat(celularResponse.preco(), is(2299.0));
+        assertThat(celularResponse.estoque(), is("Estoque esgotado"));
+        assertThat(celularResponse.nomeMarca(), is("Apple"));
+        assertThat(celularResponse.versãoSistemaOperacional(), is(10f));
+        assertThat(celularResponse.sistemaOperacional().getLabel(), is("iOS"));
+        assertThat(celularResponse.cor().getLabel(), is("Branco"));
+    }
 
     @Test
     @TestSecurity(user = "testUser", roles = {"Admin"})

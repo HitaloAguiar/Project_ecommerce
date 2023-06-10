@@ -22,6 +22,7 @@ import br.unitins.ecommerce.repository.CelularRepository;
 import br.unitins.ecommerce.repository.MarcaRepository;
 import br.unitins.ecommerce.service.avaliacao.AvaliacaoService;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
+import br.unitins.ecommerce.service.usuario.lista_desejo.ListaDesejoService;
 
 @ApplicationScoped
 public class CelularImplService implements CelularService {
@@ -37,6 +38,9 @@ public class CelularImplService implements CelularService {
 
     @Inject
     UsuarioService usuarioService;
+
+    @Inject
+    ListaDesejoService listaDesejoService;
 
     @Inject
     Validator validator;
@@ -128,7 +132,7 @@ public class CelularImplService implements CelularService {
 
         avaliacaoService.delete(celular);
 
-        usuarioService.deleteProdutoFromAllListaDesejo(celular);
+        listaDesejoService.deleteProdutoFromAllListaDesejo(celular);
 
         if (celularRepository.isPersistent(celular))
             celularRepository.delete(celular);

@@ -6,10 +6,7 @@ import java.util.stream.Collectors;
 
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
 import br.unitins.ecommerce.dto.usuario.usuariobasico.UsuarioBasicoResponseDTO;
-import br.unitins.ecommerce.model.produto.Produto;
 import br.unitins.ecommerce.model.usuario.Perfil;
 import br.unitins.ecommerce.model.usuario.Usuario;
 import br.unitins.ecommerce.repository.UsuarioRepository;
@@ -151,36 +148,6 @@ public class UsuarioImplService implements UsuarioService {
     public Long count() {
         
         return usuarioRepository.count();
-    }
-
-    @Override
-    public ListaDesejoResponseDTO getListaDesejo(Long id) throws NullPointerException {
-        
-        return listaDesejoService.getListaDesejo(id);
-    }
-
-    @Override
-    public void insertProdutoIntoListaDesejo(ListaDesejoDTO listaDto) throws NullPointerException {
-        
-        listaDesejoService.insertProdutoIntoListaDesejo(listaDto);
-    }
-
-    @Override
-    public void deleteProdutoFromListaDesejo(Long id, Long idProduto) {
-        
-        listaDesejoService.deleteProdutoFromListaDesejo(id, idProduto);
-    }
-
-    @Override
-    public void deleteProdutoFromAllListaDesejo(Produto produto) {
-
-        listaDesejoService.deleteProdutoFromAllListaDesejo(produto);
-    }
-
-    @Override
-    public Integer countListaDesejo(Long id) throws NullPointerException {
-        
-        return listaDesejoService.countListaDesejo(id);
     }
 
     @Override

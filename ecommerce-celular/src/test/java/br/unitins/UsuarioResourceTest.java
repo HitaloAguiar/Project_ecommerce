@@ -4,7 +4,6 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Map;
@@ -22,15 +21,17 @@ import br.unitins.ecommerce.dto.telefone.TelefoneDTO;
 import br.unitins.ecommerce.dto.usuario.PessoaFisicaDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioDTO;
 import br.unitins.ecommerce.dto.usuario.UsuarioResponseDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoDTO;
-import br.unitins.ecommerce.dto.usuario.listadesejo.ListaDesejoResponseDTO;
 import br.unitins.ecommerce.service.usuario.UsuarioService;
+import br.unitins.ecommerce.service.usuario.lista_desejo.ListaDesejoService;
 
 @QuarkusTest
 public class UsuarioResourceTest {
 
     @Inject
     UsuarioService usuarioService;
+
+    @Inject
+    ListaDesejoService listaDesejoService;
     
     @Test
     @TestSecurity(user = "testUser", roles = {"Admin"})
@@ -293,76 +294,6 @@ public class UsuarioResourceTest {
 
         given()
             .when().get("/usuarios/searchByNome/" + "maria")
-            .then()
-                .statusCode(200);
-    }
-
-    @Test
-    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
-    public void getListaDesejoTest() {
-
-        given()
-            .when().get("/usuarios/lista_desejo/" + 1)
-            .then()
-            .statusCode(200);
-    }
-
-    @Test
-    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
-    public void insertListaDesejoTest() {
-
-        ListaDesejoDTO listaDesejoDTO = new ListaDesejoDTO(2l, 1l);
-
-        given()
-            .contentType(ContentType.JSON)
-            .body(listaDesejoDTO)
-            .when().patch("/usuarios/lista_desejo")
-            .then()
-            .statusCode(201);
-
-        ListaDesejoResponseDTO listaResponse = usuarioService.getListaDesejo(2l);
-    
-        assertThat(listaResponse.usuario().get("id"), is(2l));
-        assertThat(listaResponse.usuario().get("login"), is("MariaFer"));
-        assertThat(listaResponse.usuario().get("email"), is("mariaF@gmail.com"));
-        assertThat(listaResponse.produtos().get(0).get("id"), is(1l));
-        assertThat(listaResponse.produtos().get(0).get("nome"), is("LG K62"));
-    }
-
-    @Test
-    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
-    public void deleteProdutoFromListaDesejoTest() {
-
-        given()
-            .pathParam("idUsuario", 1l)
-            .pathParam("idProduto", 2l)
-          .when().patch("/usuarios/lista_desejo/{idUsuario}/{idProduto}")
-          .then()
-             .statusCode(204);
-
-        ListaDesejoResponseDTO listaResponse = null;
-
-        Boolean ifProdutoRemovido = false;
-
-        listaResponse =  usuarioService.getListaDesejo(1l);
-
-        for (Map<String, Object> produto : listaResponse.produtos()) {
-            
-            if (produto.get("id") == (Object) 2l) {
-
-                ifProdutoRemovido = true;
-            }
-        }
-
-        assertFalse(ifProdutoRemovido);
-    }
-
-    @Test
-    @TestSecurity(user = "testUser", roles = {"Admin", "User"})
-    public void countListaDesejoTest() {
-
-        given()
-            .when().get("/usuarios/lista_desejo/count/" + 1l)
             .then()
                 .statusCode(200);
     }

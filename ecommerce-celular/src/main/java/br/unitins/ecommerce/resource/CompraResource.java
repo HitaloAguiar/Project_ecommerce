@@ -173,10 +173,9 @@ public class CompraResource {
             compraService.efetuarPagamentoBoleto(usuario.getId());
 
             LOG.info("Pagamento com boleto efetuado com sucesso.");
+            
             return Response.status(Status.ACCEPTED).build();
-        } catch (
-
-        NullPointerException e) {
+        } catch (NullPointerException e) {
 
             Result result = new Result(e.getMessage(), false);
 
